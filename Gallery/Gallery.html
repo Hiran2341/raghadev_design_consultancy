@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery | Raghadev Design Consultancy</title>
+  <link rel="icon" type="image/png" href="../Main Page/logo transparent.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* ── BASE STYLES & BRANDING (Matched to Main Page) ── */
+    :root {
+      --steel:    #1a1f2e;
+      --iron:     #242938;
+      --concrete: #2e3344;
+      --gold:     #c9a84c;
+      --gold-lt:  #e6c46a;
+      --offwhite: #f0ece4;
+      --muted:    #9aa0b2;
+      --white:    #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Add this brand new block right here! */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--steel);
+      /* ...rest of body code... */
+
+    /* Noise Texture */
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; gap: 18rem; 
+      padding: 0.5rem 2.25vw; 
+      background: rgba(26,31,46,0.85);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .nav-logo img { max-height: 55px; width: auto; display: block; }
+    .logo-text { display: flex; flex-direction: column; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); line-height: 1.0; letter-spacing: 0.05em; margin-top: 15px; }
+    .gold-letter { color: var(--gold); }
+    .studio-text { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold); margin-top: 0.2rem; }
+    
+    .nav-links { display: flex; gap: 2rem; list-style:none; }
+    .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    
+    .nav-cta {
+      margin-left: auto; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--steel); background: var(--gold); border: none; padding: 0.6rem 1.4rem; cursor: pointer; transition: background 0.25s, transform 0.2s; text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    /* ── GALLERY HEADER ── */
+    .gallery-header {
+      padding: 12rem 5vw 4rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      background: linear-gradient(180deg, rgba(36,41,56,0.4) 0%, var(--steel) 100%);
+    }
+    .gallery-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 0.03em; color: var(--white); margin-bottom: 1rem; }
+    .gallery-sub { font-size: 1rem; font-weight: 300; color: var(--muted); max-width: 60ch; margin: 0 auto 3rem; line-height: 1.6; }
+
+    /* ── TABS ── */
+    .filter-tabs { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .filter-btn {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--offwhite); background: transparent; border: 1px solid rgba(201,168,76,0.3); padding: 0.6rem 1.5rem; cursor: pointer; transition: all 0.3s ease; border-radius: 3px;
+    }
+    .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-btn.active { background: var(--gold); color: var(--steel); border-color: var(--gold); }
+
+    /* ── GALLERY GRID ── */
+    .gallery-container { padding: 4rem 5vw; z-index: 1; position: relative; min-height: 50vh; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gallery-item {
+      position: relative; height: 350px; overflow: hidden; border-radius: 4px; border: 1px solid rgba(201,168,76,0.15); transition: opacity 0.4s ease, transform 0.4s ease; cursor: pointer;
+    }
+    .gallery-item.hide { display: none; }
+    
+    .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .gallery-item:hover .gallery-img { transform: scale(1.05); }
+
+    .gallery-overlay {
+      position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,31,46,0.95) 0%, rgba(26,31,46,0.2) 50%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 1.5rem;
+      opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; transform: translateY(0); }
+
+    .item-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .item-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); letter-spacing: 0.05em; line-height: 1; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--steel);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 1rem 5vw; /* <-- Reduced from 2rem to 1rem to make the footer much slimmer! */
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.5rem;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+    
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      color: var(--gold); /* Makes the main word text gold */
+    }
+    
+    .footer-logo .light-letter { 
+      color: var(--muted); /* Makes the R, D, and C light gray/blue */
+    }
+
+    .footer-studio {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-top: 0.15rem;
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ── DOT NAV ── */
+    .dot-nav {
+      position: fixed;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .dot-nav a {
+      display: block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.3);
+      border: 1px solid rgba(201,168,76,0.5);
+      transition: background 0.3s, transform 0.3s;
+      text-decoration: none;
+    }
+    .dot-nav a.active,
+    .dot-nav a:hover {
+      background: var(--gold);
+      transform: scale(1.4);
+    }
+    .dot-nav a[title]::after {
+      content: attr(title);
+      position: absolute;
+      right: 1.4rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      background: rgba(26,31,46,0.85);
+      padding: 0.2rem 0.5rem;
+    }
+    .dot-nav a:hover::after { opacity: 1; }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+    }
+    .footer-logo span { color: var(--muted); }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../Main Page/Main Page.html" class="nav-logo">
+      <img src="../Main Page/logo transparent.png" alt="RDC Icon">
+      <div class="logo-text">
+        <div class="main-name"><span class="gold-letter">R</span>AGHADEV <span class="gold-letter">D</span>ESIGN <span class="gold-letter">C</span>ONSULTANCY</div>
+        <div class="studio-text">ARCHITECTURAL STUDIO</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../Main Page/Main Page.html#about">About Us</a></li>
+      <li><a href="../Main Page/Main Page.html#services">Services</a></li>
+      <li><a href="#" class="active">Gallery</a></li>
+    </ul>
+    <a href="../Main Page/Main Page.html#contact" class="nav-cta">Get a Quote</a>
+  </nav>
+
+  <section class="gallery-header">
+    <h1 class="gallery-title">Our Work</h1>
+    <p class="gallery-sub">Explore our portfolio of completed projects across residential, commercial, and heritage sectors. We pride ourselves on delivering exceptional quality from concept to handover.</p>
+    
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="residential">Residential</button>
+      <button class="filter-btn" data-filter="commercial">Commercial</button>
+      <button class="filter-btn" data-filter="renovation">Renovation</button>
+    </div>
+  </section>
+
+  <section class="gallery-container">
+    <div class="gallery-grid">
+      
+      <div class="gallery-item residential">
+        <img src="../Main Page/project1.jpg" alt="Luxury Villa" class="gallery-img">
+        <div class="gallery-overlay">
+          <div class="item-tag">Residential</div>
+          <div class="item-title">Luxury Villa · Glasgow</div>
+        </div>
+      </div>
+
+      <div class="gallery-item commercial">
+        <img src="../Main Page/project2.jpg" alt="Office Complex" class="gallery-img">
+        <div class="gallery-overlay">
+          <div class="item-tag">Commercial</div>
+          <div class="item-title">Office Complex · Edinburgh</div>
+        </div>
+      </div>
+
+      <div class="gallery-item renovation">
+        <img src="../Main Page/project3.jpg" alt="Heritage Refurbishment" class="gallery-img">
+        <div class="gallery-overlay">
+          <div class="item-tag">Renovation</div>
+          <div class="item-title">Heritage Refurbishment · Perth</div>
+        </div>
+      </div>
+
+      <div class="gallery-item residential">
+        <div style="width:100%; height:100%; background:var(--iron); display:flex; align-items:center; justify-content:center; color:var(--muted);">Image Placeholder</div>
+        <div class="gallery-overlay">
+          <div class="item-tag">Residential</div>
+          <div class="item-title">Modern Extension</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+ <footer>
+    <div class="footer-brand">
+      <div class="footer-logo"></span>R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</div>
+      <div class="footer-studio">ARCHITECTURAL STUDIO</div>
+    </div>
+    <div class="footer-copy">© 2026 Raghadev Design Consultancy. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // ── GALLERY TAB LOGIC ──
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    function filterGallery(filterValue) {
+      // 1. Update active button styles
+      filterBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-filter') === filterValue);
+      });
+
+      // 2. Show/Hide gallery items
+      galleryItems.forEach(item => {
+        if (filterValue === 'all' || item.classList.contains(filterValue)) {
+          item.classList.remove('hide');
+          // Slight delay to allow display block to apply before animating opacity
+          setTimeout(() => item.style.opacity = '1', 50); 
+        } else {
+          item.style.opacity = '0';
+          setTimeout(() => item.classList.add('hide'), 400); // Wait for fade out
+        }
+      });
+    }
+
+    // Event listeners for clicks
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterGallery(btn.getAttribute('data-filter'));
+      });
+    });
+
+    // Handle incoming links from the Main Page (e.g. gallery.html#commercial)
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.substring(1); // removes the '#'
+      if (hash && document.querySelector(`.filter-btn[data-filter="${hash}"]`)) {
+        filterGallery(hash);
+      }
+    });
+  </script>
+</body>
+</html>
