@@ -32,15 +32,17 @@
       background: var(--steel);
       /* ...rest of body code... */
 
-    /* Noise Texture */
+   /* ── NOISE TEXTURE OVERLAY ── */
     body::before {
-      content: ''; position: fixed; inset: 0;
+      
+      content: '';
+      position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none; z-index: 0; opacity: 0.4;
     }
 
     /* ── PRELOADER ── */
-    preloader {
+    #preloader {
       position: fixed;
       inset: 0; /* Stretches to all 4 corners of the screen */
       background: var(--steel); /* Matches your website's dark background */
@@ -227,6 +229,7 @@
   <div id="preloader">
     <img src="../raghadev_design_consultancy/logo transparent.png" alt="Loading..." class="fading-logo">
   </div>
+  
   <!-- NAV -->
   <nav>
     <a href="../raghadev_design_consultancy/index.html" class="nav-logo">
@@ -295,7 +298,8 @@
   </footer>
 
   <script>
-// ── PRELOADER LOGIC ──
+
+   // ── PRELOADER LOGIC ──
     window.addEventListener('load', function() {
       const preloader = document.getElementById('preloader');
       
