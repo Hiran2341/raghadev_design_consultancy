@@ -52,7 +52,10 @@
       justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s ease; /* Smooth fade out when loading is done */
     }
-
+    .preloader-hidden {
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }  
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -306,7 +309,7 @@
       // We add a slight delay just to ensure the fade animation looks smooth
       setTimeout(() => {
         preloader.classList.add('preloader-hidden');
-      }, 300); // 300 milliseconds
+      }, 500); // 300 milliseconds
     });
 
     // ── FADE-IN OBSERVER ──
