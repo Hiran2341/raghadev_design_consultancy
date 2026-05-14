@@ -1,1 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery | Raghadev Design Consultancy</title>
+  <link rel="icon" type="image/png" href="../logo transparent.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* ── BASE STYLES ── */
+    :root {
+      --steel:    #1a1f2e;
+      --iron:     #242938;
+      --concrete: #2e3344;
+      --gold:     #c9a84c;
+      --gold-lt:  #e6c46a;
+      --offwhite: #f0ece4;
+      --muted:    #9aa0b2;
+      --white:    #ffffff;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--steel);
+      color: var(--offwhite);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: var(--steel);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .fading-logo {
+      width: 120px;
+      height: auto;
+      animation: pulseFade 1.5s infinite ease-in-out; 
+    }
+
+    @keyframes pulseFade {
+      0%   { opacity: 1; }
+      50%  { opacity: 0.15; }
+      100% { opacity: 1; }
+    }
+
+    .preloader-hidden {
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+    
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 5vw; 
+      background: rgba(26,31,46,0.85);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .nav-logo img { max-height: 55px; width: auto; display: block; }
+    .logo-text { display: flex; flex-direction: column; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); line-height: 1.0; letter-spacing: 0.05em; margin-top: 15px; }
+    .gold-letter { color: var(--gold); }
+    .studio-text { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold); margin-top: 0.2rem; }
+    
+    .nav-links { display: flex; gap: 2rem; list-style:none; }
+    .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--steel); background: var(--gold); border: none; padding: 0.6rem 1.4rem; cursor: pointer; transition: background 0.25s, transform 0.2s; text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    /* ── CONSTRUCTION CONTENT ── */
+    .construction-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 5vw;
+      z-index: 1;
+    }
+    .const-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .const-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+    .const-title span { color: var(--gold); }
+    .const-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 50ch;
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--steel);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 1.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      z-index: 1;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--gold); }
+    .footer-logo span { color: var(--muted); }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
+
+  </style>
+</head>
+<body>
+  
+  <div id="preloader">
+    <img src="../logo transparent.png" alt="Loading..." class="fading-logo">
+  </div>
+  
+  <nav>
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo transparent.png" alt="RDC Icon">
+      <div class="logo-text">
+        <div class="main-name"><span class="gold-letter">R</span>AGHADEV <span class="gold-letter">D</span>ESIGN <span class="gold-letter">C</span>ONSULTANCY</div>
+        <div class="studio-text">ARCHITECTURAL STUDIO</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About Us</a></li>
+      <li><a href="../index.html#services">Services</a></li>
+      <li><a href="#" class="active">Gallery</a></li>
+    </ul>
+    <a href="../index.html#contact" class="nav-cta">Get a Quote</a>
+  </nav>
+
+  <main class="construction-main">
+    <p class="const-label">Portfolio Update</p>
+    <h1 class="const-title">Gallery Under<br><span>Construction</span></h1>
+    <p class="const-sub">We are currently curating our latest architectural projects. Our full gallery of residential and commercial work will be live very soon.</p>
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-logo">R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</span></div>
+    </div>
+    <div class="footer-copy">© 2026 Raghadev Design Consultancy. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // PRELOADER LOGIC
+    window.addEventListener('load', function() {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('preloader-hidden');
+      }, 500);
+    });
+  </script>
+</body>
+</html>
