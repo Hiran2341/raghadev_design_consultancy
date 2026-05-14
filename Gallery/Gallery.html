@@ -39,6 +39,19 @@
       pointer-events: none; z-index: 0; opacity: 0.4;
     }
 
+      /* ── PRELOADER ── */
+    #preloader {
+      position: fixed;
+      inset: 0; /* Stretches to all 4 corners of the screen */
+      background: var(--steel); /* Matches your website's dark background */
+      z-index: 9999; /* Ensures it sits on top of EVERYTHING */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease; /* Smooth fade out when loading is done */
+    }
+
+
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -210,7 +223,12 @@
   </style>
 </head>
 <body>
-
+  
+<!-- PreLoaded -->
+  <div id="preloader">
+    <img src="..../raghadev_design_consultancy/logo transparent.png" alt="Loading..." class="fading-logo">
+  </div>
+  <!-- NAV -->
   <nav>
     <a href="../raghadev_design_consultancy/index.html" class="nav-logo">
       <img src="../raghadev_design_consultancy/logo transparent.png" alt="RDC Icon">
@@ -246,7 +264,7 @@
         <img src="../Main Page/project1.jpg" alt="Luxury Villa" class="gallery-img">
         <div class="gallery-overlay">
           <div class="item-tag">Residential</div>
-          <div class="item-title">Luxury Villa · Glasgow</div>
+          <div class="item-title">Luxury Villa · Pondicherry</div>
         </div>
       </div>
 
@@ -254,7 +272,7 @@
         <img src="../Main Page/project2.jpg" alt="Office Complex" class="gallery-img">
         <div class="gallery-overlay">
           <div class="item-tag">Commercial</div>
-          <div class="item-title">Office Complex · Edinburgh</div>
+          <div class="item-title">Office Complex · Pondicherry</div>
         </div>
       </div>
 
@@ -262,15 +280,7 @@
         <img src="../Main Page/project3.jpg" alt="Heritage Refurbishment" class="gallery-img">
         <div class="gallery-overlay">
           <div class="item-tag">Renovation</div>
-          <div class="item-title">Heritage Refurbishment · Perth</div>
-        </div>
-      </div>
-
-      <div class="gallery-item residential">
-        <div style="width:100%; height:100%; background:var(--iron); display:flex; align-items:center; justify-content:center; color:var(--muted);">Image Placeholder</div>
-        <div class="gallery-overlay">
-          <div class="item-tag">Residential</div>
-          <div class="item-title">Modern Extension</div>
+          <div class="item-title">Heritage Refurbishment · Pondicherry</div>
         </div>
       </div>
 
@@ -286,6 +296,27 @@
   </footer>
 
   <script>
+// ── PRELOADER LOGIC ──
+    window.addEventListener('load', function() {
+      const preloader = document.getElementById('preloader');
+      
+      // We add a slight delay just to ensure the fade animation looks smooth
+      setTimeout(() => {
+        preloader.classList.add('preloader-hidden');
+      }, 300); // 300 milliseconds
+    });
+
+    // ── FADE-IN OBSERVER ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    document.querySelectorAll('#hero .fade-up').forEach(el => {
+      setTimeout(() => el.classList.add('visible'), 100);
+    });
+    
     // ── GALLERY TAB LOGIC ──
     const filterBtns = document.querySelectorAll('.filter-btn');
     const galleryItems = document.querySelectorAll('.gallery-item');
