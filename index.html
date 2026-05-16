@@ -37,7 +37,6 @@
 
     /* ── NOISE TEXTURE OVERLAY ── */
     body::before {
-      
       content: '';
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
@@ -47,50 +46,49 @@
     /* ── PRELOADER ── */
     #preloader {
       position: fixed;
-      inset: 0; /* Stretches to all 4 corners of the screen */
-      background: var(--steel); /* Matches your website's dark background */
-      z-index: 9999; /* Ensures it sits on top of EVERYTHING */
+      inset: 0;
+      background: var(--steel);
+      z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s ease; /* Smooth fade out when loading is done */
+      transition: opacity 0.6s ease, visibility 0.6s ease;
     }
 
     .fading-logo {
-      width: 120px; /* Adjust the size of your loading logo here */
+      width: 120px;
       height: auto;
-      /* This runs the 'pulseFade' animation infinitely */
       animation: pulseFade 1.5s infinite ease-in-out; 
     }
 
-    /* The actual fading animation */
     @keyframes pulseFade {
-      0%   { opacity: 1; }     /* Fully visible */
-      50%  { opacity: 0.15; }  /* Fades out to mostly transparent */
-      100% { opacity: 1; }     /* Fades back to fully visible */
+      0%   { opacity: 1; }
+      50%  { opacity: 0.15; }
+      100% { opacity: 1; }
     }
 
-    /* The JavaScript will add this class when the site is ready */
     .preloader-hidden {
       opacity: 0 !important;
       visibility: hidden !important;
     }
 
-    /* ── NAV ── */
-  
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; 
-      align-items: center; 
-      gap: 18rem; /* This puts space between your logo and the links */
-      padding: 0.5rem 2.25vw; 
-      background: rgba(26,31,46,0.85);
-      backdrop-filter: blur(5px);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      transition: background 0.3s;
+    /* ── NAV & HEADER WRAPPER ── */
+    .header-fixed-wrap {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
     }
 
-    /* 1. This groups the image and text side-by-side */
+    nav {
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      padding: 0.5rem 2.25vw; 
+      background: rgba(26,31,46,0.95);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
     .nav-logo {
       display: flex;
       align-items: center; 
@@ -98,14 +96,12 @@
       text-decoration: none;
     }
 
-    /* 2. This controls just the house icon size (removed the scale multiplier!) */
     .nav-logo img {
       max-height: 55px; 
       width: auto;
       display: block;
     }
 
-    /* 3. This stacks the Company Name on top of Architectural Studio */
     .logo-text {
       display: flex;
       flex-direction: column;
@@ -114,12 +110,10 @@
       color: var(--white);
       line-height: 1.0;
       letter-spacing: 0.05em;
-      margin-top: 15px; /* This is the new line that pushes the text down */
+      margin-top: 5px;
     }
 
-    .gold-letter {
-      color: var(--gold); 
-    }
+    .gold-letter { color: var(--gold); }
     
     .studio-text {
       font-family: 'Barlow Condensed', sans-serif;
@@ -129,8 +123,7 @@
       margin-top: 0.2rem;
     }
 
-    /* The rest of your navigation links */
-    .nav-links { display: flex; gap: 2rem; list-style:none; }
+    .nav-links { display: flex; gap: 2rem; list-style:none; align-items: center; }
     .nav-links a {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem;
@@ -140,11 +133,11 @@
       color: var(--muted);
       text-decoration: none;
       transition: color 0.25s;
+      cursor: pointer;
     }
     .nav-links a:hover { color: var(--gold); }
 
     .nav-cta {
-      margin-left: auto; /* This forces the button to the far right edge! */
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.8rem;
       font-weight: 700;
@@ -158,6 +151,35 @@
       transition: background 0.25s, transform 0.2s;
     }
     .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    /* ── EMERGENCY NOTIFICATION BAR ── */
+    .emergency-bar {
+      background: #b82c2c;
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeAnimation 20s linear infinite;
+    }
+    .marquee-text {
+      padding-right: 4rem;
+      white-space: nowrap;
+    }
+    @keyframes marqueeAnimation {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
 
     /* ── HERO ── */
     #hero {
@@ -173,7 +195,6 @@
       overflow: hidden;
     }
 
-    /* Diagonal accent */
     #hero::after {
       content: '';
       position: absolute;
@@ -184,7 +205,7 @@
       transform: skewX(-8deg);
       border-left: 1px solid rgba(201,168,76,0.2);
       z-index: 0;
-      pointer-events: none; /* <-- This magic line stops it from blocking clicks */
+      pointer-events: none;
     }
 
     .hero-text { position: relative; z-index: 1; }
@@ -214,10 +235,7 @@
       color: var(--white);
       margin-bottom: 1.5rem;
     }
-    .hero-title em {
-      font-style: normal;
-      color: var(--gold);
-    }
+    .hero-title em { font-style: normal; color: var(--gold); }
 
     .hero-desc {
       font-size: 1rem;
@@ -271,10 +289,9 @@
       width: 50%;
       height: 100%;
       z-index: 10;
-      pointer-events: none; /* Allows clicks to pass through the invisible background */
+      pointer-events: none;
     }
 
-    /* Left-edge fade into background */
     .hero-slideshow::before {
       content: '';
       position: absolute;
@@ -284,7 +301,6 @@
       pointer-events: none;
     }
 
-    /* Bottom fade for caption readability */
     .hero-slideshow::after {
       content: '';
       position: absolute;
@@ -306,7 +322,6 @@
     }
     .slide.active { opacity: 1; }
 
-    /* ── SLIDE CAPTION OVERLAY ── */
     .slide-caption {
       position: absolute;
       bottom: 5rem;
@@ -322,12 +337,7 @@
       transform: translateY(0);
     }
 
-    /* Slide 0 — Stats layout */
-    .caption-stats {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
+    .caption-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
     .caption-stat-item { text-align: center; }
     .caption-stat-num {
       font-family: 'Bebas Neue', sans-serif;
@@ -345,7 +355,6 @@
       margin-top: 0.2rem;
     }
 
-    /* Slide 1-3 — Title + subtitle layout */
     .caption-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.8rem;
@@ -368,23 +377,20 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--gold);
-      background: rgba(26,31,46,0.6); /* Dark semi-transparent background */
+      background: rgba(26,31,46,0.6);
       border: 1px solid rgba(201,168,76,0.45);
       padding: 0.4rem 0.8rem;
       margin-bottom: 0.5rem;
-      text-decoration: none; /* Removes link underline */
+      text-decoration: none;
       cursor: pointer;
-      pointer-events: auto; /* Ensures it can be clicked */
-      transition: background-color 0.3s ease, color 0.3s ease; /* This makes the color transition smooth! */
+      pointer-events: auto;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-
-    /* This is the hover color transition effect */
     .caption-tag:hover {
       background-color: var(--gold);
       color: var(--steel);
     }
 
-    /* ── SLIDESHOW CONTROLS ── */
     .slide-controls {
       position: absolute;
       bottom: 1.5rem;
@@ -393,7 +399,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      pointer-events: auto; /* Re-enables clicking on the buttons */
+      pointer-events: auto;
     }
     .slide-btn {
       background: rgba(26,31,46,0.7);
@@ -408,7 +414,6 @@
       cursor: pointer;
       transition: background 0.2s, border-color 0.2s;
       backdrop-filter: blur(6px);
-      pointer-events: auto; /* Re-enables clicking on the dots */
     }
     .slide-btn:hover {
       background: rgba(201,168,76,0.2);
@@ -416,7 +421,6 @@
     }
     .slide-btn.pause-btn { min-width: 4rem; text-align: center; }
 
-    /* Slide dot indicators */
     .slide-dots {
       position: absolute;
       bottom: 1.5rem;
@@ -424,7 +428,7 @@
       z-index: 99;
       display: flex;
       gap: 0.4rem;
-      pointer-events: auto; /* Re-enables clicking on the dots */
+      pointer-events: auto;
     }
     .slide-dot {
       width: 20px; height: 3px;
@@ -432,47 +436,12 @@
       border-radius: 2px;
       transition: background 0.3s, width 0.3s;
       cursor: pointer;
-      pointer-events: auto; /* Re-enables clicking on the dots */
     }
     .slide-dot.active {
       background: var(--gold);
       width: 36px;
-      pointer-events: auto; /* Re-enables clicking on the dots */
     }
 
-    .stat-item {}
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .stat-label {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.25rem;
-    }
-
-    /* Animated grid lines */
-    .grid-lines {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
-      background-size: 80px 80px;
-      z-index: 0;
-      animation: gridShift 20s linear infinite;
-    }
-    @keyframes gridShift {
-      from { background-position: 0 0; }
-      to   { background-position: 80px 80px; }
-    }
-
-    /* Animated grid lines */
     .grid-lines {
       position: absolute;
       inset: 0;
@@ -494,7 +463,8 @@
       padding: 0 5vw;
     }
 
-    #services {
+    #services, #gallery, #about {
+      min-height: 100vh;
       height: 100vh;
       scroll-snap-align: start;
       scroll-snap-stop: always;
@@ -507,13 +477,6 @@
     #gallery {
       background: var(--iron);
       border-top: 1px solid rgba(201,168,76,0.1);
-      height: 100vh;
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow: hidden;
     }
 
     .section-label {
@@ -553,13 +516,6 @@
     #about {
       background: var(--iron);
       border-top: 1px solid rgba(201,168,76,0.1);
-      height: 100vh;
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow: hidden;
     }
 
     .about-grid {
@@ -575,7 +531,6 @@
       height: 400px;
     }
 
-    /* Blueprint-style decorative box */
     .blueprint {
       position: absolute; inset: 0;
       border: 1px solid rgba(201,168,76,0.25);
@@ -599,9 +554,7 @@
       align-items: center; justify-content: center;
       gap: 0.5rem;
     }
-    .blueprint-icon {
-      font-size: 4rem; opacity: 0.4;
-    }
+    .blueprint-icon { font-size: 4rem; opacity: 0.4; }
     .blueprint-text {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.7rem;
@@ -611,8 +564,6 @@
       opacity: 0.6;
     }
 
-    /* ── ABOUT IMAGE ── */
-    /* TO CHANGE YOUR IMAGE: replace 'your-about-image.jpg' in the HTML below */
     .about-img-wrap {
       position: relative;
       height: 400px;
@@ -629,7 +580,6 @@
     }
     .about-img-wrap:hover img { transform: scale(1.03); }
 
-    /* Gold corner accents on the image */
     .about-img-wrap::before,
     .about-img-wrap::after {
       content: '';
@@ -643,7 +593,6 @@
     .about-img-wrap::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
     .about-img-wrap::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
 
-    /* Placeholder shown when no image is set */
     .about-img-placeholder {
       position: absolute; inset: 0;
       display: flex; flex-direction: column;
@@ -660,23 +609,13 @@
       color: var(--gold);
       opacity: 0.5;
     }
-    /* Hide placeholder once a real src is set */
     .about-img-wrap img[src]:not([src=""]) ~ .about-img-placeholder { display: none; }
 
-    .corner { position: absolute; width: 12px; height: 12px; border-color: var(--gold); border-style: solid; opacity: 0.6; }
-    .corner-tl { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
-    .corner-tr { top: 6px; right: 6px; border-width: 1px 1px 0 0; }
-    .corner-bl { bottom: 6px; left: 6px; border-width: 0 0 1px 1px; }
-    .corner-br { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
-
-    .about-content {}
     .about-points {
       margin-top: 2rem;
       display: flex; flex-direction: column; gap: 1.25rem;
     }
-    .about-point {
-      display: flex; gap: 1rem; align-items: flex-start;
-    }
+    .about-point { display: flex; gap: 1rem; align-items: flex-start; }
     .point-dot {
       width: 8px; height: 8px; min-width: 8px;
       background: var(--gold);
@@ -692,8 +631,6 @@
     .point-text strong { color: var(--offwhite); font-weight: 500; }
 
     /* ── SERVICES ── */
-    #services {}
-
     .services-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -757,6 +694,13 @@
     #contact {
       background: var(--iron);
       border-top: 1px solid rgba(201,168,76,0.1);
+      min-height: 100vh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 5vw;
     }
 
     .contact-wrapper {
@@ -766,22 +710,19 @@
       margin-top: 3rem;
     }
 
-    .contact-info {}
     .contact-detail {
       margin-top: 2rem;
       display: flex; flex-direction: column; gap: 1.5rem;
     }
-    .contact-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-    }
+    .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
     .contact-icon {
       width: 2.5rem; height: 2.5rem; min-width: 2.5rem;
       background: rgba(201,168,76,0.1);
       border: 1px solid rgba(201,168,76,0.25);
       display: flex; align-items: center; justify-content: center;
       font-size: 1rem;
+      color: var(--gold);
     }
-    .contact-item-text {}
     .contact-item-label {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.72rem;
@@ -795,20 +736,14 @@
       font-size: 0.95rem;
       font-weight: 300;
       color: var(--offwhite);
-      text-decoration: none; /* Removes the default link underline */
-      transition: color 0.3s ease; /* Smooth hover transition */
+      text-decoration: none;
+      transition: color 0.3s ease;
       display: inline-block;
     }
-    
-    a.contact-item-val:hover {
-      color: var(--gold); /* Turns gold when hovered! */
-    }
+    a.contact-item-val:hover { color: var(--gold); }
 
-    /* Contact form */
     .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     .form-label {
       font-family: 'Barlow Condensed', sans-serif;
@@ -852,29 +787,20 @@
     footer {
       background: var(--steel);
       border-top: 1px solid rgba(201,168,76,0.15);
-      padding: 1rem 5vw; /* <-- Reduced from 2rem to 1rem to make the footer much slimmer! */
+      padding: 1.5rem 5vw;
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 0.5rem;
+      flex-wrap: wrap; gap: 1rem;
       scroll-snap-align: start;
       scroll-snap-stop: always;
     }
     
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-    }
-
+    .footer-brand { display: flex; flex-direction: column; }
     .footer-logo {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.3rem;
       letter-spacing: 0.08em;
-      color: var(--gold); /* Makes the main word text gold */
+      color: var(--gold);
     }
-    
-    .footer-logo .light-letter { 
-      color: var(--muted); /* Makes the R, D, and C light gray/blue */
-    }
-
     .footer-studio {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.65rem;
@@ -882,70 +808,7 @@
       color: var(--gold);
       margin-top: 0.15rem;
     }
-
-    .footer-copy {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    /* ── DOT NAV ── */
-    .dot-nav {
-      position: fixed;
-      right: 1.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      align-items: center;
-    }
-    .dot-nav a {
-      display: block;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: rgba(201,168,76,0.3);
-      border: 1px solid rgba(201,168,76,0.5);
-      transition: background 0.3s, transform 0.3s;
-      text-decoration: none;
-    }
-    .dot-nav a.active,
-    .dot-nav a:hover {
-      background: var(--gold);
-      transform: scale(1.4);
-    }
-    .dot-nav a[title]::after {
-      content: attr(title);
-      position: absolute;
-      right: 1.4rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-      background: rgba(26,31,46,0.85);
-      padding: 0.2rem 0.5rem;
-    }
-    .dot-nav a:hover::after { opacity: 1; }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.08em;
-      color: var(--gold);
-    }
-    .footer-logo span { color: var(--muted); }
-    .footer-copy {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
+    .footer-copy { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
 
     /* ── SCROLL ANIMATIONS ── */
     .fade-up {
@@ -958,139 +821,186 @@
       transform: translateY(0);
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      #hero { grid-template-columns: 1fr; padding-top: 8rem; }
+    /* ── RESPONSIVE & MOBILE RESTRUCTURING ── */
+    @media (max-width: 991px) {
+      html, body {
+        scroll-snap-type: none; /* Disable strong snap animations on scroll tracking for mobile */
+        height: auto;
+      }
+      
+      section, #services, #gallery, #about, #contact {
+        height: auto !important;
+        min-height: auto !important;
+        padding: 5rem 5vw 3rem !important;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem 5vw;
+      }
+      .nav-links { gap: 1.25rem; }
+      .nav-cta { width: 100%; text-align: center; margin-top: 0.25rem; }
+
+      #hero {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding-top: 10rem !important;
+        padding-bottom: 4rem;
+        gap: 2rem;
+      }
       #hero::after { display: none; }
-      .hero-stats { flex-direction: row; border-left: none; border-top: 1px solid rgba(201,168,76,0.25); padding-left: 0; padding-top: 2rem; }
-      .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
-      .about-visual { height: 260px; }
-      .services-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+      
+      .hero-text { text-align: center; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+
+      .hero-slideshow {
+        position: relative;
+        width: 100%;
+        height: 350px;
+        order: 2;
+      }
+      .hero-slideshow::before {
+        background: linear-gradient(180deg, var(--steel) 0%, transparent 20%, transparent 80%, var(--steel) 100%);
+      }
+      .slide-caption { bottom: 3.5rem; left: 1rem; right: 1rem; }
+      .slide-dots { bottom: 1rem; left: 1rem; }
+      .slide-controls { bottom: 1rem; right: 1rem; }
+
+      .about-grid, .contact-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .about-visual, .about-img-wrap { height: 300px; }
+      
+      .services-grid { grid-template-columns: 1fr; gap: 1rem; }
+      
+      .form-row { grid-template-columns: 1fr; gap: 1rem; }
+      .form-submit { width: 100%; text-align: center; }
+      
+      footer { flex-direction: column; text-align: center; gap: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text { font-size: 1.1rem; }
+      .hero-title { font-size: 2.8rem; }
+      .caption-stats { gap: 1rem; justify-content: center; }
+      .caption-stat-num { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
-<!-- PreLoaded -->
+
   <div id="preloader">
-    <img src="../raghadev_design_consultancy/logo transparent.png" alt="Loading..." class="fading-logo">
+    <img src="logo transparent.png" alt="Loading..." class="fading-logo">
   </div>
 
-
-  <!-- NAV -->
-  <nav>
-    <a href="#hero" class="nav-logo">
-      <img src="logo transparent.png" alt="RDC Icon">
-      <div class="logo-text">
-        <div class="main-name">
-          <span class="gold-letter">R</span>AGHADEV 
-          <span class="gold-letter">D</span>ESIGN 
-          <span class="gold-letter">C</span>ONSULTANCY
+  <div class="header-fixed-wrap">
+    <nav>
+      <a href="#hero" class="nav-logo">
+        <img src="logo transparent.png" alt="RDC Icon">
+        <div class="logo-text">
+          <div class="main-name">
+            <span class="gold-letter">R</span>AGHADEV 
+            <span class="gold-letter">D</span>ESIGN 
+            <span class="gold-letter">C</span>ONSULTANCY
+          </div>
+          <div class="studio-text">ARCHITECTURAL STUDIO</div>
         </div>
-        <div class="studio-text">ARCHITECTURAL STUDIO</div>
-      </div>
-    </a>
-    
-    <ul class="nav-links">
-      <li><a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About Us </a></li>
-      <li><a onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Services</a></li>
-      <li><a href="../raghadev_design_consultancy/Gallery/Gallery.html">Gallery</a></li>
-    </ul>
-    
-    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Quote</button>
-  </nav>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About Us </a></li>
+        <li><a onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Services</a></li>
+        <li><a href="../raghadev_design_consultancy/Gallery/Gallery.html">Gallery</a></li>
+      </ul>
+      
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Quote</button>
+    </nav>
 
-  <!-- HERO -->
+    <div class="emergency-bar">
+      <div class="marquee-track">
+        <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
+        <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
+        <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
+        <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
+      </div>
+    </div>
+  </div>
+
   <section id="hero">
     <div class="grid-lines"></div>
 
     <div class="hero-text fade-up">
-      <p class="hero-eyebrow">Consultancy &amp; Construction</p>
+      <p class="hero-eyebrow">Consultancy & Construction</p>
       <h1 class="hero-title">You <em>Imagine</em> IT,<br/>We <em>create</em> it.</h1>
       <p class="hero-desc">We deliver end-to-end consultancy and construction services — from concept and planning through to project delivery — with an uncompromising commitment to quality.</p>
       <div class="hero-actions">
-        <button class="btn-primary"onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Our Services</button>
-        <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contract</button>
+        <button class="btn-primary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Our Services</button>
+        <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
       </div>
     </div>
     
-      <div class="hero-slideshow" id="heroSlideshow">
-
-        <!-- SLIDE 0: Logo slide with animated stats -->
-        <!-- TO CHANGE: replace 'logo transparent.png' with your logo filename -->
-        <div class="slide active" style="background-image: url('logo transparent.png'); background-size: contain; background-repeat: no-repeat; background-color: rgba(26,31,46,0.6); background-position: center 35%;"></div>
-        <div class="slide-caption" id="caption-0">
-          <div class="caption-stats">
-            <div class="caption-stat-item">
-              <div class="caption-stat-num">15+</div>
-              <div class="caption-stat-label">Years Experience</div>
-            </div>
-            <div class="caption-stat-item">
-              <div class="caption-stat-num">5</div>
-              <div class="caption-stat-label">Ongoing Projects</div>
-            </div>
-            <div class="caption-stat-item">
-              <div class="caption-stat-num">10+</div>
-              <div class="caption-stat-label">Completed Projects</div>
-            </div>
-            <div class="caption-stat-item">
-              <div class="caption-stat-num">98%</div>
-              <div class="caption-stat-label">Client Satisfaction</div>
-            </div>
+    <div class="hero-slideshow" id="heroSlideshow">
+      <div class="slide active" style="background-image: url('logo transparent.png'); background-size: contain; background-repeat: no-repeat; background-color: rgba(26,31,46,0.6); background-position: center 35%;"></div>
+      <div class="slide-caption" id="caption-0">
+        <div class="caption-stats">
+          <div class="caption-stat-item">
+            <div class="caption-stat-num">15+</div>
+            <div class="caption-stat-label">Years Experience</div>
+          </div>
+          <div class="caption-stat-item">
+            <div class="caption-stat-num">5</div>
+            <div class="caption-stat-label">Ongoing Projects</div>
+          </div>
+          <div class="caption-stat-item">
+            <div class="caption-stat-num">10+</div>
+            <div class="caption-stat-label">Completed Projects</div>
+          </div>
+          <div class="caption-stat-item">
+            <div class="caption-stat-num">98%</div>
+            <div class="caption-stat-label">Client Satisfaction</div>
           </div>
         </div>
-
-        <!-- SLIDE 1 -->
-        <!-- TO CHANGE IMAGE: replace 'project1.jpg' with your image filename -->
-        <div class="slide" style="background-image: url('project1.jpg');"></div>
-        <div class="slide-caption" id="caption-1">
-          <a class="caption-tag" href="../raghadev_design_consultancy/Gallery/residential/residential.html">Residential </a>
-          <div class="caption-title">Luxury Villa · Puducherry</div>
-          <div class="caption-subtitle">Full design and build consultancy from concept to handover — delivered on time and within budget.</div>
-        </div>
-
-        <!-- SLIDE 2 -->
-        <!-- TO CHANGE IMAGE: replace 'project2.jpg' with your image filename -->
-        <div class="slide" style="background-image: url('project2.jpg');"></div>
-        <div class="slide-caption" id="caption-2">
-          <a class="caption-tag" href="../raghadev_design_consultancy/Gallery/commercial/commercial.html">Commercial </a>
-          <div class="caption-title">Commercial Building · Puducherry</div>
-          <div class="caption-subtitle">Modern workspace transformation — structural planning, interior fit-out and compliance management.</div>
-        </div>
-
-        <!-- SLIDE 3 -->
-        <!-- TO CHANGE IMAGE: replace 'project3.jpg' with your image filename -->
-        <div class="slide" style="background-image: url('project3.jpg');"></div>
-        <div class="slide-caption" id="caption-3">
-          <a class="caption-tag" href="../raghadev_design_consultancy/Gallery/residential/residential.html">Renovation </a>
-          <div class="caption-title">Heritage Refurbishment · Puducherry</div>
-          <div class="caption-subtitle">Sensitive restoration of a Grade B listed building — preserving character while meeting modern standards.</div>
-        </div>
-
-        <!-- Dot indicators -->
-        <div class="slide-dots" id="slideDots"></div>
-
-        <!-- Prev / Play-Pause / Next controls -->
-        <div class="slide-controls">
-          <button class="slide-btn" id="btnPrev" title="Previous">&#8592; Prev</button>
-          <button class="slide-btn pause-btn" id="btnPlayPause">Pause</button>
-          <button class="slide-btn" id="btnNext" title="Next">Next &#8594;</button>
-        </div>
-
       </div>
+
+      <div class="slide" style="background-image: url('project1.jpg');"></div>
+      <div class="slide-caption" id="caption-1">
+        <a class="caption-tag" href="../raghadev_design_consultancy/Gallery/residential/residential.html">Residential </a>
+        <div class="caption-title">Luxury Villa · Puducherry</div>
+        <div class="caption-subtitle">Full design and build consultancy from concept to handover — delivered on time and within budget.</div>
+      </div>
+
+      <div class="slide" style="background-image: url('project2.jpg');"></div>
+      <div class="slide-caption" id="caption-2">
+        <a class="caption-tag" href="../raghadev_design_consultancy/Gallery/commercial/commercial.html">Commercial </a>
+        <div class="caption-title">Commercial Building · Puducherry</div>
+        <div class="caption-subtitle">Modern workspace transformation — structural planning, interior fit-out and compliance management.</div>
+      </div>
+
+      <div class="slide" style="background-image: url('project3.jpg');"></div>
+      <div class="slide-caption" id="caption-3">
+        <a class="caption-tag" href="../raghadev_design_consultancy/Gallery/residential/residential.html">Renovation </a>
+        <div class="caption-title">Heritage Refurbishment · Puducherry</div>
+        <div class="caption-subtitle">Sensitive restoration of a Grade B listed building — preserving character while meeting modern standards.</div>
+      </div>
+
+      <div class="slide-dots" id="slideDots"></div>
+
+      <div class="slide-controls">
+        <button class="slide-btn" id="btnPrev" title="Previous">← Prev</button>
+        <button class="slide-btn pause-btn" id="btnPlayPause">Pause</button>
+        <button class="slide-btn" id="btnNext" title="Next">Next →</button>
+      </div>
+    </div>
   </section>
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="section-label">Who We Are</div>
     <div class="about-grid">
       <div class="about-visual fade-up">
-        <!-- =============================================
-             ABOUT SECTION IMAGE
-             TO ADD YOUR IMAGE: change src="" to src="your-image-filename.jpg"
-             The image file must be in the same folder as this HTML file.
-             Example: src="office.jpg" or src="images/team-photo.jpg"
-             ============================================= -->
         <div class="about-img-wrap">
           <img src="" alt="About Raghadev Design Consultancy" />
           <div class="about-img-placeholder">
@@ -1121,7 +1031,6 @@
     </div>
   </section>
 
-  <!-- SERVICES -->
   <section id="services">
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Our Core Services</h2>
@@ -1140,12 +1049,12 @@
       </div>
       <div class="service-card fade-up" style="transition-delay:0.2s;">
         <div class="service-num">03</div>
-        <div class="service-name">2D &amp; 3D Drawings</div>
+        <div class="service-name">2D & 3D Drawings</div>
         <p class="service-desc">Accurate quantity surveying and cost planning to keep your budget under control from day one.</p>
       </div>
       <div class="service-card fade-up" style="transition-delay:0.1s;">
         <div class="service-num">04</div>
-        <div class="service-name">3D Interior &amp; Exterior Designs</div>
+        <div class="service-name">3D Interior & Exterior Designs</div>
         <p class="service-desc">Comprehensive site assessments, condition reports, and feasibility analysis to identify risks early.</p>
       </div>
       <div class="service-card fade-up" style="transition-delay:0.2s;">
@@ -1161,7 +1070,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="section-label">Get In Touch</div>
     <div class="contact-wrapper">
@@ -1235,21 +1143,19 @@
 
   <footer>
     <div class="footer-brand">
-      <div class="footer-logo"></span>R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</div>
+      <div class="footer-logo">R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</span></div>
       <div class="footer-studio">ARCHITECTURAL STUDIO</div>
     </div>
     <div class="footer-copy">© 2026 Raghadev Design Consultancy. All rights reserved.</div>
   </footer>
 
   <script>
-// ── PRELOADER LOGIC ──
+    // ── PRELOADER LOGIC ──
     window.addEventListener('load', function() {
       const preloader = document.getElementById('preloader');
-      
-      // We add a slight delay just to ensure the fade animation looks smooth
       setTimeout(() => {
         preloader.classList.add('preloader-hidden');
-      }, 500); // 300 milliseconds
+      }, 500);
     });
 
     // ── FADE-IN OBSERVER ──
@@ -1274,9 +1180,8 @@
     let current  = 0;
     let playing  = true;
     let timer    = null;
-    const DELAY  = 5000; // ms between auto-advances
+    const DELAY  = 5000;
 
-    // Build dots
     slides.forEach((_, i) => {
       const d = document.createElement('div');
       d.className = 'slide-dot' + (i === 0 ? ' active' : '');
@@ -1295,7 +1200,6 @@
     function goTo(idx) {
       slides[current].classList.remove('active');
       dots[current].classList.remove('active');
-      // hide old caption
       if (captions[current]) captions[current].classList.remove('visible');
 
       current = (idx + slides.length) % slides.length;
@@ -1303,7 +1207,6 @@
       slides[current].classList.add('active');
       dots[current].classList.add('active');
 
-      // slight delay so slide starts fading in before text appears
       setTimeout(() => showCaption(current), 300);
     }
 
@@ -1312,13 +1215,12 @@
       timer = setInterval(() => goTo(current + 1), DELAY);
     }
 
-    // Init: show first caption immediately
     setTimeout(() => showCaption(0), 600);
     startTimer();
 
     btnNext.addEventListener('click', () => {
       goTo(current + 1);
-      if (playing) startTimer(); // reset timer on manual nav
+      if (playing) startTimer();
     });
 
     btnPrev.addEventListener('click', () => {
@@ -1345,25 +1247,20 @@
     }, { threshold: 0.5 });
     sections.forEach(s => sectionObserver.observe(s));
 
-
     // ── EMAIL FORM SUBMISSION LOGIC ──
     const enquiryForm = document.getElementById('enquiryForm');
     const submitBtn = document.getElementById('submitBtn');
     const successMsg = document.getElementById('successMsg');
 
     enquiryForm.addEventListener('submit', function(event) {
-      event.preventDefault(); // Stop the page from reloading
+      event.preventDefault();
       
-      // Change button text so the user knows it is thinking
       submitBtn.textContent = "Sending...";
       submitBtn.style.opacity = "0.7";
       submitBtn.disabled = true;
 
-      // Collect the form data
       const formData = new FormData(enquiryForm);
 
-      // Send the data silently in the background
-      // IMPORTANT: Replace the URL below with your actual Formspree link!
       fetch("https://formspree.io/f/YOUR_UNIQUE_ID_HERE", {
         method: "POST",
         body: formData,
@@ -1373,12 +1270,10 @@
       })
       .then(response => {
         if (response.ok) {
-          // Success! Hide the button, show the success message, and clear the form
           submitBtn.style.display = 'none';
           successMsg.style.display = 'block';
           enquiryForm.reset();
         } else {
-          // If something goes wrong
           submitBtn.textContent = "Error. Try Again.";
           submitBtn.style.opacity = "1";
           submitBtn.disabled = false;
@@ -1390,8 +1285,6 @@
         submitBtn.disabled = false;
       });
     });
-
   </script>
-
 </body>
 </html>
