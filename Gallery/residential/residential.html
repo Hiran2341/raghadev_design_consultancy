@@ -31,6 +31,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
 
     /* ── NOISE TEXTURE ── */
@@ -70,20 +71,23 @@
       visibility: hidden !important;
     }
     
-    /* ── NAV ── */
-   nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; 
-      align-items: center; 
-      gap: 18rem; /* This puts space between your logo and the links */
-      padding: 0.5rem 2.25vw; 
-      background: rgba(26,31,46,0.85);
-      backdrop-filter: blur(5px);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      transition: background 0.3s;
+/* ── NAV & HEADER WRAPPER ── */
+    .header-fixed-wrap {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
     }
 
-    /* 1. This groups the image and text side-by-side */
+    nav {
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      padding: 0.5rem 2.25vw; 
+      background: rgba(26,31,46,0.95);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
     .nav-logo {
       display: flex;
       align-items: center; 
@@ -91,14 +95,12 @@
       text-decoration: none;
     }
 
-    /* 2. This controls just the house icon size (removed the scale multiplier!) */
     .nav-logo img {
       max-height: 55px; 
       width: auto;
       display: block;
     }
 
-    /* 3. This stacks the Company Name on top of Architectural Studio */
     .logo-text {
       display: flex;
       flex-direction: column;
@@ -107,12 +109,10 @@
       color: var(--white);
       line-height: 1.0;
       letter-spacing: 0.05em;
-      margin-top: 15px; /* This is the new line that pushes the text down */
+      margin-top: 5px;
     }
 
-    .gold-letter {
-      color: var(--gold); 
-    }
+    .gold-letter { color: var(--gold); }
     
     .studio-text {
       font-family: 'Barlow Condensed', sans-serif;
@@ -122,8 +122,7 @@
       margin-top: 0.2rem;
     }
 
-    /* The rest of your navigation links */
-    .nav-links { display: flex; gap: 2rem; list-style:none; }
+    .nav-links { display: flex; gap: 2rem; list-style:none; align-items: center; }
     .nav-links a {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem;
@@ -133,11 +132,11 @@
       color: var(--muted);
       text-decoration: none;
       transition: color 0.25s;
+      cursor: pointer;
     }
     .nav-links a:hover { color: var(--gold); }
 
     .nav-cta {
-      margin-left: auto; /* This forces the button to the far right edge! */
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.8rem;
       font-weight: 700;
@@ -162,6 +161,7 @@
       background: linear-gradient(180deg, rgba(36,41,56,0.4) 0%, var(--steel) 100%);
     }
     .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 0.03em; color: var(--white); margin-bottom: 1rem; }
+    .page-title span { color: var(--gold); }
     .page-sub { font-size: 1rem; font-weight: 300; color: var(--muted); max-width: 60ch; margin: 0 auto; line-height: 1.6; }
 
     /* ── PROJECT GRID ── */
@@ -181,7 +181,7 @@
     /* Hover Details Overlay */
     .project-overlay {
       position: absolute; inset: 0; 
-      background: rgba(26,31,46,0.9);
+      background: rgba(26,31,46,0.95);
       display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;
       opacity: 0; transition: opacity 0.4s ease;
     }
@@ -213,7 +213,6 @@
     .modal-prev { left: 2vw; }
     .modal-next { right: 2vw; }
 
- 
     /* ── FOOTER ── */
     footer {
       background: var(--steel);
@@ -224,9 +223,55 @@
       z-index: 1;
     }
     .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--gold); }
-    .footer-logo span { color: var(--muted); }
     .footer-copy { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
 
+    /* ── RESPONSIVE MOBILE CSS RULES ── */
+    @media (max-width: 991px) {
+      nav {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem 5vw;
+      }
+      .nav-links { gap: 1.25rem; }
+      .nav-cta { width: 100%; text-align: center; }
+
+      .page-header {
+        padding: 14rem 5vw 3rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr; /* Force single column grid layers on mobile screens */
+        gap: 1.5rem;
+      }
+      .project-card { height: 320px; }
+      
+      /* Always show overlay information on touch screens where hover states don't exist */
+      .project-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(26,31,46,0.95) 0%, rgba(26,31,46,0.5) 70%, rgba(26,31,46,0.2) 100%);
+        justify-content: flex-end;
+        padding: 1.5rem;
+      }
+      .project-title { font-size: 1.8rem; margin-bottom: 0.5rem; }
+      .project-desc { font-size: 0.85rem; margin-bottom: 1rem; }
+      .project-click-hint { width: 100%; text-align: center; background: rgba(26,31,46,0.8); }
+
+      /* Optimize Modal Carousel controls for finger touch spaces */
+      .modal-close { top: 15px; right: 20px; font-size: 2.2rem; }
+      .modal-btn { width: 45px; height: 45px; font-size: 1.2rem; }
+      .modal-content { height: 75vh; }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text { font-size: 1.1rem; }
+      .page-title { font-size: 2.5rem; }
+    }
   </style>
 </head>
 <body>
@@ -239,7 +284,11 @@
     <a href="../../index.html" class="nav-logo">
       <img src="../../logo transparent.png" alt="RDC Icon">
       <div class="logo-text">
-        <div class="main-name"><span class="gold-letter">R</span>AGHADEV <span class="gold-letter">D</span>ESIGN <span class="gold-letter">C</span>ONSULTANCY</div>
+        <div class="main-name">
+          <span class="gold-letter">R</span>AGHADEV 
+          <span class="gold-letter">D</span>ESIGN 
+          <span class="gold-letter">C</span>ONSULTANCY
+        </div>
         <div class="studio-text">ARCHITECTURAL STUDIO</div>
       </div>
     </a>
@@ -251,9 +300,8 @@
     <a href="../../index.html#contact" class="nav-cta">Get a Quote</a>
   </nav>
 
-  </main>
   <section class="page-header">
-    <h1 class="page-title">Residential Project Grallery Under<br><span>Construction</span></h1>
+    <h1 class="page-title">Residential Project Gallery Under<br><span>Construction</span></h1>
     <p class="page-sub">Explore our curated selection of bespoke residential builds. From modern luxury villas to sensitive heritage extensions, we craft homes designed for living.</p>
   </section>
 
@@ -304,7 +352,6 @@
     <button class="modal-btn modal-next" id="modalNext">&#10095;</button>
   </div>
 
-
   <footer>
     <div class="footer-brand">
       <div class="footer-logo">R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</span></div>
@@ -313,7 +360,7 @@
   </footer>
 
   <script>
-    // PRELOADER LOGIC
+    // ── PRELOADER LOGIC ──
     window.addEventListener('load', function() {
       const preloader = document.getElementById('preloader');
       setTimeout(() => {
@@ -321,7 +368,7 @@
       }, 500);
     });
 
-     // ── MODAL LOGIC ──
+     // ── MODAL CAROUSEL LOGIC ──
     const modal = document.getElementById('imageModal');
     const modalImgTag = document.getElementById('modalImgTag');
     const closeBtn = document.getElementById('modalClose');
@@ -332,12 +379,9 @@
     let currentImageArray = [];
     let currentImageIndex = 0;
 
-    // Open Modal when a project is clicked
     projectCards.forEach(card => {
       card.addEventListener('click', () => {
-        // Grab the comma-separated list of images and turn it into an array
         const rawImages = card.getAttribute('data-images');
-        // Split by comma, and trim any accidental spaces
         currentImageArray = rawImages.split(',').map(item => item.trim());
         
         currentImageIndex = 0;
@@ -346,43 +390,37 @@
       });
     });
 
-    // Function to update the picture shown in the popup
     function updateModalImage() {
       modalImgTag.src = currentImageArray[currentImageIndex];
     }
 
-    // Next Button
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Stops the modal from instantly closing when touching the next button region
       currentImageIndex++;
-      // If we go past the last image, loop back to the first one
       if (currentImageIndex >= currentImageArray.length) {
         currentImageIndex = 0;
       }
       updateModalImage();
     });
 
-    // Previous Button
-    prevBtn.addEventListener('click', () => {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       currentImageIndex--;
-      // If we go past the first image, loop to the last one
       if (currentImageIndex < 0) {
         currentImageIndex = currentImageArray.length - 1;
       }
       updateModalImage();
     });
 
-    // Close Button
     closeBtn.addEventListener('click', () => {
       modal.classList.remove('active');
     });
 
-    // Also close if clicking the dark background outside the image
     modal.addEventListener('click', (e) => {
       if (e.target === modal || e.target.classList.contains('modal-content')) {
         modal.classList.remove('active');
       }
     });
-    
   </script>
 </body>
 </html>
