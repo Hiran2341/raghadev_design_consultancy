@@ -181,6 +181,11 @@
       100% { transform: translate3d(-50%, 0, 0); }
     }
 
+    /* Class to smoothly hide the emergency bar when needed */
+    .emergency-bar.hidden {
+      display: none !important;
+    }
+
     /* ── HERO ── */
     #hero {
       position: relative;
@@ -920,15 +925,20 @@
       <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Quote</button>
     </nav>
 
-    <div class="emergency-bar">
+    /Remove the 'hidden' in emegerency-bar ''hidden'' to remove the hidden function/
+
+    <div class="emergency-bar hidden" id="emergencyBar">
       <div class="marquee-track">
         <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
         <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
         <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
         <div class="marquee-text">⚠️ Notice: Site Under Construction - Some portfolio features and sub-pages are currently being updated.</div>
       </div>
-    </div>
-  </div>
+      
+      <span onclick="hideEmergencyBar()" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--white); font-weight: bold; font-size: 1.1rem; z-index: 10; background: #b82c2c; padding: 0 5px;">×</span>
+    </div> 
+
+    
 
   <section id="hero">
     <div class="grid-lines"></div>
@@ -1246,6 +1256,14 @@
       });
     }, { threshold: 0.5 });
     sections.forEach(s => sectionObserver.observe(s));
+
+    // Function to hide the emergency notification bar
+    function hideEmergencyBar() {
+      const bar = document.getElementById('emergencyBar');
+      if (bar) {
+        bar.classList.add('hidden');
+      }
+    }
 
     // ── EMAIL FORM SUBMISSION LOGIC ──
     const enquiryForm = document.getElementById('enquiryForm');
