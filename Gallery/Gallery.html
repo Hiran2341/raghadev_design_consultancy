@@ -136,12 +136,16 @@
       position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,31,46,0.95) 0%, rgba(26,31,46,0.2) 50%, transparent 100%);
       display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 1.5rem;
       opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease;
+      
+      /* ADD THIS LINE: This allows the click to pass straight through the text box onto the link behind it */
+      pointer-events: none; 
     }
     .gallery-item:hover .gallery-overlay { opacity: 1; transform: translateY(0); }
 
     /* Mobile always reveals overlay content so interactions aren't completely missing on touch screens */
     @media (max-width: 991px) {
-      .gallery-overlay { opacity: 1; transform: translateY(0); }
+      .gallery-overlay { opacity: 1; transform: translateY(0); 
+                      pointer-events: none; }
     }
 
     .item-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
@@ -233,7 +237,7 @@
     <div class="gallery-grid">
       
       <div class="gallery-item residential">
-        <a href="residential/residential.html"> 
+        <a href="residential/residential.html" class="res-link"> 
           <img src="../Main Page/project1.jpg" alt="Luxury Villa" class="gallery-img">
         </a>
         <div class="gallery-overlay">
@@ -243,7 +247,7 @@
       </div>
 
       <div class="gallery-item commercial">
-        <a href="commercial/commercial.html"> 
+        <a href="commercial/commercial.html" class="res-link"> 
           <img src="../Main Page/project2.jpg" alt="Office Complex" class="gallery-img">
         </a>
         <div class="gallery-overlay">
@@ -253,7 +257,7 @@
       </div>
 
       <div class="gallery-item renovation">
-        <a href="renovation/Renovation.html"> 
+        <a href="renovation/Renovation.html" class="res-link"> 
           <img src="../Main Page/project3.jpg" alt="Heritage Refurbishment" class="gallery-img">
         </a>
         <div class="gallery-overlay">
