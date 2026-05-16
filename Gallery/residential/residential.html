@@ -152,42 +152,68 @@
     }
     .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
 
-    /* ── CONSTRUCTION CONTENT ── */
-    .construction-main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    /* ── HEADER ── */
+    .page-header {
+      padding: 12rem 5vw 4rem;
       text-align: center;
-      padding: 0 5vw;
+      position: relative;
       z-index: 1;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      background: linear-gradient(180deg, rgba(36,41,56,0.4) 0%, var(--steel) 100%);
     }
-    .const-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-    .const-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 8vw, 5.5rem);
-      color: var(--white);
-      line-height: 1;
-      margin-bottom: 1.5rem;
-    }
-    .const-title span { color: var(--gold); }
-    .const-sub {
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 50ch;
-      line-height: 1.6;
+    .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 0.03em; color: var(--white); margin-bottom: 1rem; }
+    .page-sub { font-size: 1rem; font-weight: 300; color: var(--muted); max-width: 60ch; margin: 0 auto; line-height: 1.6; }
+
+    /* ── PROJECT GRID ── */
+    .projects-container { padding: 4rem 5vw; z-index: 1; position: relative; min-height: 50vh; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
     }
 
+    .project-card {
+      position: relative; height: 400px; overflow: hidden; border-radius: 4px; border: 1px solid rgba(201,168,76,0.15); cursor: pointer;
+    }
+    .project-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .project-card:hover .project-img { transform: scale(1.05); }
+
+    /* Hover Details Overlay */
+    .project-overlay {
+      position: absolute; inset: 0; 
+      background: rgba(26,31,46,0.9);
+      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    .project-card:hover .project-overlay { opacity: 1; }
+
+    .project-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .project-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--white); letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .project-desc { font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.5; margin-bottom: 1.5rem; }
+    .project-click-hint { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; color: var(--white); border: 1px solid var(--gold); padding: 0.5rem 1rem; transition: background 0.3s, color 0.3s; }
+    .project-card:hover .project-click-hint { background: var(--gold); color: var(--steel); }
+
+    /* ── IMAGE POPUP MODAL ── */
+    .modal {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(15, 18, 25, 0.95); backdrop-filter: blur(10px);
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .modal.active { opacity: 1; pointer-events: auto; }
+
+    .modal-content { position: relative; width: 90vw; height: 85vh; display: flex; justify-content: center; align-items: center; }
+    .modal-img { max-width: 100%; max-height: 100%; object-fit: contain; border: 2px solid var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+
+    .modal-close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; color: var(--muted); cursor: pointer; transition: color 0.3s; line-height: 1; z-index: 1000; }
+    .modal-close:hover { color: var(--gold); }
+
+    .modal-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(26,31,46,0.8); border: 1px solid var(--gold); color: var(--gold); font-size: 1.5rem; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background 0.3s; z-index: 1000; }
+    .modal-btn:hover { background: var(--gold); color: var(--steel); }
+    .modal-prev { left: 2vw; }
+    .modal-next { right: 2vw; }
+
+ 
     /* ── FOOTER ── */
     footer {
       background: var(--steel);
@@ -225,11 +251,59 @@
     <a href="../../index.html#contact" class="nav-cta">Get a Quote</a>
   </nav>
 
-  <main class="construction-main">
-    <p class="const-label">Portfolio Updating</p>
-    <h1 class="const-title">Residential Gallery Under<br><span>Construction</span></h1>
-    <p class="const-sub">We are currently curating our latest architectural projects. Our full gallery of residential and commercial work will be live very soon.</p>
   </main>
+  <section class="page-header">
+    <h1 class="page-title">Residential Project Grallery Under<br><span>Construction</span></h1>
+    <p class="page-sub">Explore our curated selection of bespoke residential builds. From modern luxury villas to sensitive heritage extensions, we craft homes designed for living.</p>
+  </section>
+
+  <section class="projects-container">
+    <div class="projects-grid">
+      
+      <div class="project-card" data-images="house1-main.jpg, house1-kitchen.jpg, house1-bedroom.jpg">
+        <img src="house1-main.jpg" alt="The Glass House" class="project-img">
+        <div class="project-overlay">
+          <div class="project-tag">New Build</div>
+          <div class="project-title">The Glass House</div>
+          <div class="project-desc">A stunning contemporary 4-bedroom home featuring floor-to-ceiling windows and open-plan living.</div>
+          <div class="project-click-hint">Click to view Gallery</div>
+        </div>
+      </div>
+
+      <div class="project-card" data-images="house2-main.jpg, house2-living.jpg, house2-garden.jpg">
+        <img src="house2-main.jpg" alt="Heritage Extension" class="project-img">
+        <div class="project-overlay">
+          <div class="project-tag">Renovation</div>
+          <div class="project-title">Victorian Townhouse</div>
+          <div class="project-desc">Seamlessly blending historic architecture with a striking modern rear extension.</div>
+          <div class="project-click-hint">Click to view Gallery</div>
+        </div>
+      </div>
+
+       <div class="project-card" data-images="house3-main.jpg, house3-interior.jpg">
+        <img src="house3-main.jpg" alt="Coastal Villa" class="project-img">
+        <div class="project-overlay">
+          <div class="project-tag">Bespoke Design</div>
+          <div class="project-title">Coastal Retreat</div>
+          <div class="project-desc">Designed to maximize ocean views while remaining highly energy efficient.</div>
+          <div class="project-click-hint">Click to view Gallery</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="modal" id="imageModal">
+    <div class="modal-close" id="modalClose">&times;</div>
+    <button class="modal-btn modal-prev" id="modalPrev">&#10094;</button>
+    
+    <div class="modal-content">
+      <img src="" alt="Project Image" class="modal-img" id="modalImgTag">
+    </div>
+
+    <button class="modal-btn modal-next" id="modalNext">&#10095;</button>
+  </div>
+
 
   <footer>
     <div class="footer-brand">
@@ -246,6 +320,69 @@
         preloader.classList.add('preloader-hidden');
       }, 500);
     });
+
+     // ── MODAL LOGIC ──
+    const modal = document.getElementById('imageModal');
+    const modalImgTag = document.getElementById('modalImgTag');
+    const closeBtn = document.getElementById('modalClose');
+    const prevBtn = document.getElementById('modalPrev');
+    const nextBtn = document.getElementById('modalNext');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    let currentImageArray = [];
+    let currentImageIndex = 0;
+
+    // Open Modal when a project is clicked
+    projectCards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Grab the comma-separated list of images and turn it into an array
+        const rawImages = card.getAttribute('data-images');
+        // Split by comma, and trim any accidental spaces
+        currentImageArray = rawImages.split(',').map(item => item.trim());
+        
+        currentImageIndex = 0;
+        updateModalImage();
+        modal.classList.add('active');
+      });
+    });
+
+    // Function to update the picture shown in the popup
+    function updateModalImage() {
+      modalImgTag.src = currentImageArray[currentImageIndex];
+    }
+
+    // Next Button
+    nextBtn.addEventListener('click', () => {
+      currentImageIndex++;
+      // If we go past the last image, loop back to the first one
+      if (currentImageIndex >= currentImageArray.length) {
+        currentImageIndex = 0;
+      }
+      updateModalImage();
+    });
+
+    // Previous Button
+    prevBtn.addEventListener('click', () => {
+      currentImageIndex--;
+      // If we go past the first image, loop to the last one
+      if (currentImageIndex < 0) {
+        currentImageIndex = currentImageArray.length - 1;
+      }
+      updateModalImage();
+    });
+
+    // Close Button
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    // Also close if clicking the dark background outside the image
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.classList.contains('modal-content')) {
+        modal.classList.remove('active');
+      }
+    });
+    
   </script>
 </body>
 </html>
