@@ -1,1 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Consultancy — Raghadev Design Consultancy</title>
+  <link rel="icon" type="image/png" href="../logo transparent.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --steel:    #1a1f2e;
+      --iron:     #242938;
+      --concrete: #2e3344;
+      --gold:     #c9a84c;
+      --gold-lt:  #e6c46a;
+      --offwhite: #f0ece4;
+      --muted:    #9aa0b2;
+      --white:    #ffffff;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--steel);
+      color: var(--offwhite);
+      overflow-x: hidden;
+      height: 100%;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0;
+      background: var(--steel);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .fading-logo {
+      width: 120px; height: auto;
+      animation: pulseFade 1.5s infinite ease-in-out;
+    }
+    @keyframes pulseFade {
+      0%   { opacity: 1; }
+      50%  { opacity: 0.15; }
+      100% { opacity: 1; }
+    }
+    .preloader-hidden { opacity: 0 !important; visibility: hidden !important; }
+
+    /* ── NAV ── */
+    .header-fixed-wrap {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 2.25vw;
+      background: rgba(26,31,46,0.95);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 1rem; text-decoration: none;
+    }
+    .nav-logo img { max-height: 55px; width: auto; display: block; }
+    .logo-text {
+      display: flex; flex-direction: column;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--white);
+      line-height: 1.0; letter-spacing: 0.05em; margin-top: 5px;
+    }
+    .gold-letter { color: var(--gold); }
+    .studio-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.3em;
+      color: var(--gold); margin-top: 0.2rem;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.25s; cursor: pointer;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--steel); background: var(--gold);
+      border: none; padding: 0.6rem 1.4rem;
+      cursor: pointer; transition: background 0.25s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    /* ── HERO BANNER ── */
+    /* 
+      BACKGROUND IMAGE: replace the url() below with your image.
+      File must be in the same folder as this HTML.
+      Example: url('../images/consultancy-hero.jpg')
+    */
+    #page-hero {
+      position: relative;
+      height: 100vh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 6vw 5rem;
+      overflow: hidden;
+
+      background-image: url('consultancy-hero.jpg'); /* ← CHANGE THIS IMAGE */
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Dark overlay so text is always readable */
+    #page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(26,31,46,0.88) 0%,
+        rgba(26,31,46,0.55) 50%,
+        rgba(26,31,46,0.75) 100%
+      );
+      z-index: 1;
+    }
+
+    /* Animated grid lines */
+    .grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      z-index: 0;
+      animation: gridShift 20s linear infinite;
+    }
+    @keyframes gridShift {
+      from { background-position: 0 0; }
+      to   { background-position: 80px 80px; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 750px;
+    }
+
+    /* Breadcrumb trail */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.5rem;
+      text-decoration: none;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); }
+    .breadcrumb-sep { color: rgba(201,168,76,0.4); font-size: 0.9rem; }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 2rem; height: 1px; background: var(--gold);
+    }
+    .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
+
+    .page-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.8rem, 8vw, 7rem);
+      line-height: 0.92; letter-spacing: 0.02em;
+      color: var(--white); margin-bottom: 1.5rem;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease 0.35s, transform 0.8s ease 0.35s;
+    }
+    .page-hero-title em { font-style: normal; color: var(--gold); }
+    .page-hero-title.visible { opacity: 1; transform: translateY(0); }
+
+    .page-hero-sub {
+      font-size: 1rem; font-weight: 300;
+      line-height: 1.8; color: rgba(240,236,228,0.75);
+      max-width: 52ch; margin-bottom: 2rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+    }
+    .page-hero-sub.visible { opacity: 1; transform: translateY(0); }
+
+    .hero-tags {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+      opacity: 0; transition: opacity 0.7s ease 0.65s;
+    }
+    .hero-tags.visible { opacity: 1; }
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35);
+      padding: 0.3rem 0.75rem;
+      background: rgba(26,31,46,0.5);
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 2rem; right: 6vw;
+      z-index: 2;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(201,168,76,0.5);
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    .scroll-hint::after {
+      content: '↓';
+      font-size: 1rem; color: var(--gold); opacity: 0.6;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* ── SHARED SECTION STYLES ── */
+    section {
+      position: relative; z-index: 1;
+      padding: 0 6vw;
+    }
+
+    .snap-section {
+      height: 100vh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-label::before {
+      content: ''; display: inline-block;
+      width: 1.5rem; height: 1px; background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      letter-spacing: 0.03em; color: var(--white); margin-bottom: 1rem;
+    }
+    .section-title em { font-style: normal; color: var(--gold); }
+
+    .section-sub {
+      font-size: 0.95rem; font-weight: 300;
+      color: var(--muted); line-height: 1.75; max-width: 55ch;
+    }
+
+    /* ── SECTION 1: INTRO — "Your First Conversation" ── */
+    #intro {
+      background: var(--iron);
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .intro-visual {
+      position: relative;
+      height: 420px;
+    }
+
+    /* 
+      INTRO IMAGE: replace src="" with your image file.
+      Example: src="../images/first-meeting.jpg"
+    */
+    .intro-img-wrap {
+      position: relative;
+      height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .intro-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block; transition: transform 0.5s ease;
+    }
+    .intro-img-wrap:hover img { transform: scale(1.03); }
+    .intro-img-wrap::before,
+    .intro-img-wrap::after {
+      content: ''; position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--gold); border-style: solid;
+      z-index: 2; opacity: 0.8;
+    }
+    .intro-img-wrap::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .intro-img-wrap::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+    .img-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.75rem;
+      background: var(--concrete);
+    }
+    .img-placeholder span:first-child { font-size: 3.5rem; opacity: 0.3; }
+    .img-placeholder span:last-child {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold); opacity: 0.45;
+      text-align: center; padding: 0 2rem;
+    }
+    .intro-img-wrap img[src]:not([src=""]) ~ .img-placeholder { display: none; }
+
+    /* Gold number badge */
+    .visual-badge {
+      position: absolute;
+      bottom: -1rem; right: -1rem;
+      width: 5rem; height: 5rem;
+      background: var(--gold);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 3;
+    }
+    .visual-badge-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; color: var(--steel); line-height: 1;
+    }
+    .visual-badge-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.5rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--steel); line-height: 1.2; text-align: center;
+    }
+
+    .intro-text {}
+
+    .intro-highlight {
+      background: rgba(201,168,76,0.07);
+      border-left: 3px solid var(--gold);
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .intro-highlight p {
+      font-size: 0.95rem; font-weight: 400;
+      color: var(--offwhite); line-height: 1.7;
+      font-style: italic;
+    }
+
+    .intro-steps {
+      display: flex; flex-direction: column; gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .intro-step {
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--gold);
+      line-height: 1; min-width: 1.8rem;
+    }
+    .step-body {}
+    .step-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--offwhite); margin-bottom: 0.2rem;
+    }
+    .step-desc {
+      font-size: 0.83rem; font-weight: 300;
+      color: var(--muted); line-height: 1.6;
+    }
+
+    /* ── SECTION 2: SITE VISIT ── */
+    #site-visit {
+      background: var(--steel);
+    }
+
+    .visit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .visit-content {}
+
+    .visit-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .visit-card {
+      background: var(--iron);
+      border-radius: 10px;
+      border: 1px solid rgba(201,168,76,0.08);
+      padding: 1.2rem;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .visit-card:hover {
+      background: var(--concrete);
+      border-color: rgba(201,168,76,0.2);
+    }
+    .visit-card-icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .visit-card-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.88rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--offwhite); margin-bottom: 0.3rem;
+    }
+    .visit-card-desc {
+      font-size: 0.78rem; font-weight: 300;
+      color: var(--muted); line-height: 1.55;
+    }
+
+    /* Site visit image */
+    .visit-visual {
+      position: relative; height: 460px;
+    }
+    .visit-img-wrap {
+      position: relative; height: 100%;
+      border-radius: 8px; overflow: hidden;
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .visit-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block; transition: transform 0.5s ease;
+    }
+    .visit-img-wrap:hover img { transform: scale(1.03); }
+    .visit-img-wrap::before,
+    .visit-img-wrap::after {
+      content: ''; position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--gold); border-style: solid;
+      z-index: 2; opacity: 0.8;
+    }
+    .visit-img-wrap::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .visit-img-wrap::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+    .visit-img-wrap img[src]:not([src=""]) ~ .img-placeholder { display: none; }
+
+    /* ── SECTION 3: WHAT WE COVER ── */
+    #what-we-cover {
+      background: var(--iron);
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .cover-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-bottom: 2.5rem;
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .cover-card {
+      background: var(--concrete);
+      border-radius: 10px;
+      border: 1px solid rgba(201,168,76,0.08);
+      padding: 1.4rem;
+      transition: background 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .cover-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 1.4rem; right: 1.4rem;
+      height: 2px; background: var(--gold); border-radius: 2px;
+      transform: scaleX(0); transition: transform 0.4s ease;
+    }
+    .cover-card:hover { background: var(--iron); box-shadow: 0 4px 24px rgba(201,168,76,0.06); }
+    .cover-card:hover::after { transform: scaleX(1); }
+
+    .cover-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; color: rgba(201,168,76,0.15); line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .cover-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--offwhite); margin-bottom: 0.4rem;
+    }
+    .cover-desc {
+      font-size: 0.78rem; font-weight: 300;
+      color: var(--muted); line-height: 1.6;
+    }
+
+    /* ── SECTION 4: CTA / GET IN TOUCH ── */
+    #service-cta {
+      background: var(--steel);
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .cta-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .cta-left {}
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 0.92; letter-spacing: 0.02em;
+      color: var(--white); margin-bottom: 1.5rem;
+    }
+    .cta-title em { font-style: normal; color: var(--gold); }
+    .cta-desc {
+      font-size: 0.95rem; font-weight: 300;
+      color: var(--muted); line-height: 1.75; max-width: 44ch;
+      margin-bottom: 2rem;
+    }
+
+    .cta-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--steel); background: var(--gold);
+      border: none; padding: 0.9rem 2rem;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.25s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    .btn-ghost {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--offwhite); background: transparent;
+      border: 1px solid rgba(255,170,0,0.3);
+      padding: 0.9rem 2rem; cursor: pointer; text-decoration: none;
+      transition: border-color 0.25s, color 0.25s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-lt); }
+
+    /* Quick contact info on CTA */
+    .cta-right {}
+    .cta-info-list {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .cta-info-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .cta-icon {
+      width: 2.5rem; height: 2.5rem; min-width: 2.5rem;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--gold);
+      border-radius: 4px;
+    }
+    .cta-item-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.15rem;
+    }
+    a.cta-item-val {
+      font-size: 0.92rem; font-weight: 300;
+      color: var(--offwhite); text-decoration: none;
+      transition: color 0.25s;
+    }
+    a.cta-item-val:hover { color: var(--gold); }
+
+    .other-services {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+    .other-services-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .other-services-links {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .other-svc-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .other-svc-tag:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--steel);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 1.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+    .footer-brand { display: flex; flex-direction: column; }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem; letter-spacing: 0.08em; color: var(--gold);
+    }
+    .footer-logo span { color: var(--muted); }
+    .footer-studio {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.3em;
+      color: var(--gold); margin-top: 0.15rem;
+    }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
+
+    /* ── FADE-UP ANIMATION ── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 991px) {
+      html, body { scroll-snap-type: none; height: auto; }
+      section, .snap-section {
+        height: auto !important; min-height: auto !important;
+        padding: 5rem 5vw 3rem !important;
+        justify-content: flex-start !important;
+      }
+      #page-hero {
+        min-height: 100vh; height: auto;
+        align-items: flex-end; padding: 8rem 5vw 4rem;
+      }
+      .intro-grid, .visit-grid, .cta-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+      .intro-visual, .visit-visual { height: 280px; }
+      .cover-intro { grid-template-columns: 1fr; }
+      .cover-grid { grid-template-columns: 1fr 1fr; }
+      .visit-cards { grid-template-columns: 1fr; }
+      nav { flex-direction: column; gap: 0.75rem; padding: 0.75rem 5vw; }
+      .nav-links { gap: 1.25rem; }
+      .nav-cta { width: 100%; text-align: center; margin-top: 0.25rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      .cover-grid { grid-template-columns: 1fr; }
+      .page-hero-title { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <img src="../logo transparent.png" alt="Loading..." class="fading-logo">
+  </div>
+
+  <!-- NAV (same as index.html) -->
+  <div class="header-fixed-wrap">
+    <nav>
+      <a href="../index.html" class="nav-logo">
+        <img src="../logo transparent.png" alt="RDC Icon">
+        <div class="logo-text">
+          <div class="main-name">
+            <span class="gold-letter">R</span>AGHADEV 
+            <span class="gold-letter">D</span>ESIGN 
+            <span class="gold-letter">C</span>ONSULTANCY
+          </div>
+          <div class="studio-text">ARCHITECTURAL STUDIO</div>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About Us</a></li>
+        <li><a href="../index.html#services" class="active">Services</a></li>
+        <li><a href="../Gallery/Gallery.html">Gallery</a></li>
+      </ul>
+
+      <button class="nav-cta" onclick="document.getElementById('service-cta').scrollIntoView({behavior:'smooth'})">Get a Quote</button>
+    </nav>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 1 — HERO BANNER
+  ════════════════════════════════════════════════ -->
+  <section id="page-hero">
+    <div class="grid-lines"></div>
+
+    <div class="hero-content">
+     
+
+      <p class="hero-eyebrow" id="heroEyebrow">Our Services</p>
+
+      <h1 class="page-hero-title" id="heroTitle">
+        Project<br/><em>Consultancy</em>
+      </h1>
+
+      <p class="page-hero-sub" id="heroSub">
+        Before a single brick is laid, the right guidance makes all the difference. 
+        Our consultancy service is where every successful project begins — with clarity, 
+        a site visit, and an honest conversation about your vision.
+      </p>
+
+      <div class="hero-tags" id="heroTags">
+        <span class="hero-tag">First Consultation</span>
+        <span class="hero-tag">Site Survey</span>
+        <span class="hero-tag">Feasibility</span>
+        <span class="hero-tag">Planning Advice</span>
+        <span class="hero-tag">Budget Guidance</span>
+      </div>
+    </div>
+
+    <div class="scroll-hint">Scroll to explore</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 2 — THE FIRST CONVERSATION
+  ════════════════════════════════════════════════ -->
+  <section id="intro" class="snap-section">
+    <div class="section-label">Where It All Begins</div>
+    <div class="intro-grid">
+
+      <div class="intro-visual fade-up">
+        <!-- 
+          ADD YOUR IMAGE: change src="" to src="../images/first-talk.jpg"
+          This should be a photo of a client meeting, office, or a blueprint on a table.
+        -->
+        <div class="intro-img-wrap">
+          <img src="" alt="First consultation meeting" />
+          <div class="img-placeholder">
+            <span>🤝</span>
+            <span>Add your image: change src="" to your file path</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-text fade-up" style="transition-delay:0.15s;">
+        <h2 class="section-title">Your <em>First</em> Conversation</h2>
+
+        <div class="intro-highlight">
+          <p>"Every great project starts with a conversation — not a contract. We listen first, then advise."</p>
+        </div>
+
+        <p class="section-sub" style="margin-bottom:0;">
+          Whether you have a clear plan or just an idea on a napkin, our initial consultation is a relaxed, 
+          no-obligation discussion where we understand your goals, your budget expectations, and the scope of what you want to achieve.
+        </p>
+
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 3 — SITE VISIT
+  ════════════════════════════════════════════════ -->
+  <section id="site-visit" class="snap-section">
+    <div class="visit-grid">
+
+      <div class="visit-content fade-up">
+        <div class="section-label">On the Ground</div>
+        <h2 class="section-title">Site Visit <em> & </em> Assessment</h2>
+        <p class="section-sub">
+          After the first consultation, we visit your site to see the land, structure, or space firsthand. 
+          This lets us give you accurate, grounded advice — not estimates made from a desk.
+        </p>
+
+        <div class="visit-cards">
+          <div class="visit-card fade-up" style="transition-delay:0.1s;">
+            <div class="visit-card-icon">📐</div>
+            <div class="visit-card-title">Site Measurements</div>
+            <div class="visit-card-desc">We record accurate dimensions of the plot, existing structures, and surroundings.</div>
+          </div>
+          <div class="visit-card fade-up" style="transition-delay:0.2s;">
+            <div class="visit-card-icon">🔍</div>
+            <div class="visit-card-title">Condition Check</div>
+            <div class="visit-card-desc">We assess existing structures for stability, drainage, access, and potential issues.</div>
+          </div>
+          <div class="visit-card fade-up" style="transition-delay:0.3s;">
+            <div class="visit-card-icon">📍</div>
+            <div class="visit-card-title">Location Analysis</div>
+            <div class="visit-card-desc">We review local planning context, neighbouring properties, and site constraints.</div>
+          </div>
+          <div class="visit-card fade-up" style="transition-delay:0.4s;">
+            <div class="visit-card-icon">📋</div>
+            <div class="visit-card-title">Site Report</div>
+            <div class="visit-card-desc">You receive a written summary of findings and our recommended approach.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="visit-visual fade-up" style="transition-delay:0.1s;">
+        <!-- 
+          ADD YOUR IMAGE: change src="" to src="../images/site-visit.jpg"
+          A photo of professionals on-site, measuring, or reviewing plans outdoors.
+        -->
+        <div class="visit-img-wrap">
+          <img src="" alt="Site visit and assessment" />
+          <div class="img-placeholder">
+            <span>🏗️</span>
+            <span>Add your site visit photo here</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 4 — WHAT WE COVER
+  ════════════════════════════════════════════════ -->
+  <section id="what-we-cover" class="snap-section">
+    <div class="cover-intro">
+      <div>
+        <div class="section-label">Full Scope of Support</div>
+        <h2 class="section-title">Everything <em> We </em>Cover for You</h2>
+      </div>
+      <div>
+        <p class="section-sub" style="margin-top:1rem;">
+          Our consultancy service isn't just one meeting — it's ongoing expert guidance covering every 
+          aspect of your project from idea to approval. Here's what we help you with.
+        </p>
+      </div>
+    </div>
+
+    <div class="cover-grid">
+      <div class="cover-card fade-up">
+        <div class="cover-num">01</div>
+        <div class="cover-title">Feasibility Study</div>
+        <div class="cover-desc">We assess whether your project is viable — structurally, financially, and from a planning perspective — before you commit a single rupee.</div>
+      </div>
+      <div class="cover-card fade-up" style="transition-delay:0.08s;">
+        <div class="cover-num">02</div>
+        <div class="cover-title">Planning Guidance</div>
+        <div class="cover-desc">We advise on local planning rules, what permissions you need, and the best approach to get approvals smoothly.</div>
+      </div>
+      <div class="cover-card fade-up" style="transition-delay:0.16s;">
+        <div class="cover-num">03</div>
+        <div class="cover-title">Budget Roadmap</div>
+        <div class="cover-desc">We provide a realistic cost framework so you can plan finances confidently from the start — no surprises later.</div>
+      </div>
+      <div class="cover-card fade-up" style="transition-delay:0.24s;">
+        <div class="cover-num">04</div>
+        <div class="cover-title">Design Direction</div>
+        <div class="cover-desc">We help shape your design concept — advising on style, materials, and spatial planning before drawings begin.</div>
+      </div>
+      <div class="cover-card fade-up" style="transition-delay:0.32s;">
+        <div class="cover-num">05</div>
+        <div class="cover-title">Contractor Coordination</div>
+        <div class="cover-desc">We help you understand how to select and brief the right contractors, subcontractors, and specialists for your project.</div>
+      </div>
+      <div class="cover-card fade-up" style="transition-delay:0.40s;">
+        <div class="cover-num">06</div>
+        <div class="cover-title">Ongoing Advisory</div>
+        <div class="cover-desc">Questions come up throughout a project. We remain available throughout to give you answers, resolve issues, and keep things moving.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 5 — CTA
+  ════════════════════════════════════════════════ -->
+  <section id="service-cta" class="snap-section">
+    <div class="cta-wrapper">
+
+      <div class="cta-left fade-up">
+        <div class="section-label">Ready to Begin?</div>
+        <h2 class="cta-title">Let's Talk About<br/>Your <em>Project</em></h2>
+        <p class="cta-desc">
+          
+        </p>
+        <div class="cta-actions">
+          <a href="../index.html#contact" class="btn-primary">Book a Consultation</a>
+          <a href="../index.html#services" class="btn-ghost">All Services</a>
+        </div>
+      </div>
+
+      <div class="cta-right fade-up" style="transition-delay:0.15s;">
+        <div class="cta-info-list">
+          <div class="cta-info-item">
+            <div class="cta-icon">📍</div>
+            <div>
+              <div class="cta-item-label">Our Office</div>
+              <a class="cta-item-val" href="https://maps.app.goo.gl/ZfK7tEiGYPSH8V146" target="_blank">
+                20, Vengadeswara Nagar, 3rd Cross (East), Puducherry - 605013
+              </a>
+            </div>
+          </div>
+          <div class="cta-info-item">
+            <div class="cta-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" style="width:1.1rem;height:1.1rem;">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.8c-32 0-64.4-8.5-92.4-24.6l-6.6-3.9-68.9 18 18.3-67.2-4.3-6.8c-17.6-27.8-26.9-59.7-26.9-92.4 0-101.1 82.2-183.3 183.5-183.3 49 0 95 19.1 129.6 53.7 34.6 34.6 53.7 80.6 53.7 129.6 0 101.1-82.2 183.3-183.5 183.3zM324 286.1c-5.5-2.8-32.5-16.1-37.5-17.9-5-1.8-8.7-2.8-12.4 2.8-3.7 5.5-14.2 17.9-17.4 21.6-3.2 3.7-6.5 4.1-12 1.4-5.5-2.8-23.2-8.6-44.2-27.3-16.3-14.6-27.3-32.6-30.5-38.1-3.2-5.5-.3-8.5 2.5-11.2 2.5-2.5 5.5-6.4 8.2-9.6 2.8-3.2 3.7-5.5 5.5-9.2 1.8-3.7.9-6.9-.5-9.6-1.4-2.8-12.4-29.9-17-40.9-4.5-10.8-9.1-9.3-12.4-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.6 1.4-14.7 6.9-5 5.5-19.2 18.8-19.2 45.9s19.7 53.2 22.5 56.9c2.8 3.7 38.8 59.2 94 83 13.1 5.6 23.3 9 31.3 11.5 13.1 4.2 25 3.6 34.5 2.2 10.6-1.6 32.5-13.3 37.1-26.1 4.6-12.8 4.6-23.8 3.2-26.1-1.4-2.3-5-3.7-10.5-6.5z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="cta-item-label">WhatsApp</div>
+              <a class="cta-item-val" href="https://wa.me/9194" target="_blank">+91 (0) 948 — — — —</a>
+            </div>
+          </div>
+          <div class="cta-info-item">
+            <div class="cta-icon">✉️</div>
+            <div>
+              <div class="cta-item-label">Email</div>
+              <a class="cta-item-val" href="mailto:hello@gmail.com">hello@gmail.com</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER (same as index.html) -->
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-logo">R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</span></div>
+      <div class="footer-studio">ARCHITECTURAL STUDIO</div>
+    </div>
+    <div class="footer-copy">© 2026 Raghadev Design Consultancy. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // ── PRELOADER ──
+    window.addEventListener('load', function () {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => preloader.classList.add('preloader-hidden'), 500);
+    });
+
+    // ── HERO FADE-IN ON LOAD ──
+    window.addEventListener('load', function () {
+      setTimeout(() => {
+        document.getElementById('heroEyebrow').classList.add('visible');
+        document.getElementById('heroTitle').classList.add('visible');
+        document.getElementById('heroSub').classList.add('visible');
+        document.getElementById('heroTags').classList.add('visible');
+      }, 700);
+    });
+
+    // ── SCROLL FADE-UP ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
