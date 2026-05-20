@@ -213,16 +213,32 @@
     .modal-prev { left: 2vw; }
     .modal-next { right: 2vw; }
 
-    /* ── FOOTER ── */
+   /* ── FOOTER ── */
     footer {
       background: var(--steel);
       border-top: 1px solid rgba(201,168,76,0.15);
       padding: 1.5rem 5vw;
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 1rem;
-      z-index: 1;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--gold); }
+    
+    .footer-brand { display: flex; flex-direction: column; }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+    }
+    .footer-logo span { color: var(--muted); }
+    .footer-studio {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-top: 0.15rem;
+    }
     .footer-copy { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
 
     /* ── RESPONSIVE MOBILE CSS RULES ── */
@@ -355,6 +371,7 @@
   <footer>
     <div class="footer-brand">
       <div class="footer-logo">R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</span></div>
+      <div class="footer-studio">ARCHITECTURAL STUDIO</div>
     </div>
     <div class="footer-copy">© 2026 Raghadev Design Consultancy. All rights reserved.</div>
   </footer>
