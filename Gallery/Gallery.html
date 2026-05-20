@@ -151,17 +151,24 @@
     .item-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
     .item-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); letter-spacing: 0.05em; line-height: 1; }
 
-    /* ── FOOTER ── */
+  /* ── FOOTER ── */
     footer {
       background: var(--steel);
       border-top: 1px solid rgba(201,168,76,0.15);
       padding: 1.5rem 5vw;
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 1rem;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
     
     .footer-brand { display: flex; flex-direction: column; }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--gold); }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+    }
     .footer-logo span { color: var(--muted); }
     .footer-studio {
       font-family: 'Barlow Condensed', sans-serif;
