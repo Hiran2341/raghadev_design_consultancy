@@ -1,1 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2D Drawings — Raghadev Design Consultancy</title>
+  <link rel="icon" type="image/png" href="../logo transparent.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --steel:    #1a1f2e;
+      --iron:     #242938;
+      --concrete: #2e3344;
+      --gold:     #c9a84c;
+      --gold-lt:  #e6c46a;
+      --offwhite: #f0ece4;
+      --muted:    #9aa0b2;
+      --white:    #ffffff;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--steel); color: var(--offwhite);
+      overflow-x: hidden; -webkit-text-size-adjust: 100%;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0; background: var(--steel); z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .fading-logo { width: 100px; height: auto; animation: pulseFade 1.5s infinite ease-in-out; }
+    @keyframes pulseFade { 0%{opacity:1} 50%{opacity:0.15} 100%{opacity:1} }
+    .preloader-hidden { opacity: 0 !important; visibility: hidden !important; }
+
+    /* ── NAV ── */
+    .header-fixed-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 2.25vw;
+      background: rgba(26,31,46,0.95);
+      backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .nav-logo img { max-height: 55px; width: auto; display: block; }
+    .logo-text {
+      display: flex; flex-direction: column;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--white);
+      line-height: 1.0; letter-spacing: 0.05em; margin-top: 5px;
+    }
+    .gold-letter { color: var(--gold); }
+    .studio-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold); margin-top: 0.2rem;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.25s; cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--steel); background: var(--gold); border: none;
+      padding: 0.6rem 1.4rem; cursor: pointer; transition: background 0.25s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    #page-hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: flex-end; padding: 8rem 5vw 4rem;
+      overflow: hidden;
+      background-image: url('https://c4.wallpaperflare.com/wallpaper/851/7/820/scrolls-drawing-engineering-architecture-wallpaper-preview.jpg');
+      background-size: cover; background-position: center;
+    }
+    #page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(13,24,41,0.95) 0%, rgba(26,31,46,0.55) 55%, rgba(13,24,41,0.85) 100%);
+      z-index: 1;
+    }
+    #page-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(100,170,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,170,255,0.04) 1px, transparent 1px);
+      background-size: 50px 50px; z-index: 0;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 780px; width: 100%; }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); }
+    .breadcrumb-sep { color: rgba(201,168,76,0.3); }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      opacity: 0; transform: translateY(15px);
+      transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+    }
+    .hero-eyebrow::before { content:''; display:inline-block; width:1.5rem; height:1px; background:var(--gold); }
+    .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
+    .page-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.95; letter-spacing: 0.02em; color: var(--white); margin-bottom: 1.25rem;
+      opacity: 0; transform: translateY(25px);
+      transition: opacity 0.8s ease 0.35s, transform 0.8s ease 0.35s;
+    }
+    .page-hero-title em { font-style: normal; color: var(--gold); }
+    .page-hero-title.visible { opacity: 1; transform: translateY(0); }
+    .page-hero-sub {
+      font-size: 0.95rem; font-weight: 300; line-height: 1.7;
+      color: rgba(240,236,228,0.8); max-width: 55ch; margin-bottom: 1.75rem;
+      opacity: 0; transform: translateY(15px);
+      transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+    }
+    .page-hero-sub.visible { opacity: 1; transform: translateY(0); }
+    .hero-tags {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      opacity: 0; transition: opacity 0.7s ease 0.65s;
+    }
+    .hero-tags.visible { opacity: 1; }
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.25rem 0.65rem; background: rgba(26,31,46,0.5);
+    }
+
+    /* ── INTRO STRIP ── */
+    #intro-strip {
+      background: var(--iron); border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 5rem 5vw; position: relative; z-index: 1;
+    }
+    .intro-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      max-width: 1100px; margin: 3rem auto 0;
+    }
+    .intro-stat {
+      text-align: center; padding: 2rem 1.5rem;
+      background: var(--concrete); border-radius: 8px;
+      border: 1px solid rgba(201,168,76,0.08);
+    }
+    .intro-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; color: var(--gold); line-height: 1;
+    }
+    .intro-stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); margin-top: 0.3rem;
+    }
+    .intro-stat-desc {
+      font-size: 0.8rem; font-weight: 300; color: var(--muted);
+      line-height: 1.5; margin-top: 0.5rem;
+    }
+
+    /* ── SHARED HEADERS ── */
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-label::before { content:''; display:inline-block; width:1.5rem; height:1px; background:var(--gold); }
+    .section-label.centered { justify-content: center; }
+    .section-label.centered::after { content:''; display:inline-block; width:1.5rem; height:1px; background:var(--gold); }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: 0.03em; color: var(--white); margin-bottom: 1rem;
+    }
+    .section-title em { font-style: normal; color: var(--gold); }
+    .section-sub {
+      font-size: 0.95rem; font-weight: 300; color: var(--muted);
+      line-height: 1.7; max-width: 55ch;
+    }
+
+    /* ── NEW CLEAN ARCHITECTURE FOR DRAWING STEPS ── */
+    #drawing-journey {
+      background: var(--steel);
+      padding: 6rem 5vw;
+    }
+    .journey-layout-container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+    .journey-steps-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .journey-steps-header .section-sub {
+      margin: 0 auto;
+    }
+    .journey-grid-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .step-card {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 2.5rem 2rem;
+      background: var(--iron);
+      border-radius: 8px;
+      border: 1px solid rgba(201,168,76,0.05);
+      position: relative; overflow: hidden;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .step-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px; background: var(--gold);
+    }
+    .step-card.visible { opacity: 1; transform: translateY(0); }
+    .step-card:hover { border-color: rgba(201,168,76,0.15); background: var(--concrete); }
+
+    .step-left { display: flex; flex-direction: column; align-items: center; min-width: 3.5rem; }
+    .step-circle {
+      width: 3.2rem; height: 3.2rem; border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold);
+      background: rgba(201,168,76,0.06);
+    }
+    .step-right { flex: 1; min-width: 0; }
+    .step-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .step-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 0.5rem;
+    }
+    .step-detail { font-size: 0.92rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+    .step-detail strong { color: var(--offwhite); font-weight: 500; }
+    .material-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 1rem; }
+    .mtag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(201,168,76,0.85); border: 1px solid rgba(201,168,76,0.2);
+      padding: 0.2rem 0.55rem; border-radius: 3px;
+    }
+
+    /* ── DELIVERABLES GRID ── */
+    #deliverables {
+      background: var(--iron); border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 6rem 5vw; position: relative; z-index: 1;
+    }
+    .del-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+    .del-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .del-card {
+      background: var(--concrete); border-radius: 10px;
+      border: 1px solid rgba(201,168,76,0.08);
+      padding: 2rem 1.5rem; text-align: center;
+      transition: all 0.3s ease; cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .del-card::after {
+      content: ''; position: absolute; bottom: 0; left: 1.25rem; right: 1.25rem;
+      height: 2px; background: var(--gold); border-radius: 2px;
+      transform: scaleX(0); transition: transform 0.4s ease;
+    }
+    .del-card:hover { background: var(--iron); box-shadow: 0 4px 20px rgba(201,168,76,0.08); transform: translateY(-3px); }
+    .del-card:hover::after { transform: scaleX(1); }
+    .del-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .del-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 0.5rem;
+    }
+    .del-desc { font-size: 0.8rem; font-weight: 300; color: var(--muted); line-height: 1.55; }
+
+    /* ── CTA ── */
+    #service-cta {
+      background: var(--iron); border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 6rem 5vw; position: relative; z-index: 1;
+    }
+    .cta-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.95; letter-spacing: 0.02em; color: var(--white); margin-bottom: 1.25rem;
+    }
+    .cta-title em { font-style: normal; color: var(--gold); }
+    .cta-desc { font-size: 0.95rem; font-weight: 300; color: var(--muted); line-height: 1.7; max-width: 44ch; margin-bottom: 1.75rem; }
+    .cta-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--steel); background: var(--gold); border: none;
+      padding: 0.8rem 1.75rem; cursor: pointer; text-decoration: none;
+      transition: background 0.25s, transform 0.2s; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-ghost {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--offwhite); background: transparent;
+      border: 1px solid rgba(201,168,76,0.3); padding: 0.8rem 1.75rem;
+      cursor: pointer; text-decoration: none;
+      transition: border-color 0.25s, color 0.25s; display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-lt); }
+    .cta-info-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .cta-info-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .cta-icon {
+      width: 2.5rem; height: 2.5rem; min-width: 2.5rem;
+      background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--gold); border-radius: 4px;
+    }
+    .cta-item-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.15rem;
+    }
+    a.cta-item-val {
+      font-size: 0.92rem; font-weight: 300; color: var(--offwhite);
+      text-decoration: none; transition: color 0.25s;
+    }
+    a.cta-item-val:hover { color: var(--gold); }
+    .other-services { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
+    .other-services-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .other-services-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .other-svc-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      border: 1px solid rgba(201,168,76,0.15); padding: 0.3rem 0.75rem;
+      border-radius: 4px; transition: color 0.2s, border-color 0.2s;
+    }
+    .other-svc-tag:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--steel); border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 1.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-brand { display: flex; flex-direction: column; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--gold); }
+    .footer-logo span { color: var(--muted); }
+    .footer-studio { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold); margin-top: 0.15rem; }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
+
+    /* ── UNIFIED MEDIA BREAKPOINTS ── */
+    @media (max-width: 991px) {
+      nav { flex-direction: column; gap: 0.75rem; padding: 0.75rem 5vw; }
+      .nav-links { gap: 1.25rem; }
+      .nav-cta { width: 100%; text-align: center; margin-top: 0.25rem; }
+      
+      /* Safely pushes hero down below the navigation menu */
+      #page-hero { align-items: center; text-align: center; padding-top: 11rem !important; padding-bottom: 4rem; }
+      .hero-eyebrow { justify-content: center; }
+      .breadcrumb { justify-content: center; }
+      .page-hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-tags { justify-content: center; }
+
+      .intro-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .del-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .cta-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; text-align: center; gap: 1rem; }
+    }
+    @media (max-width: 600px) {
+      .del-grid { grid-template-columns: 1fr; }
+      .step-card { flex-direction: column; gap: 1rem; padding: 1.5rem 1.25rem; }
+      .step-left { align-items: flex-start; min-width: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <img src="../logo transparent.png" alt="Loading..." class="fading-logo">
+  </div>
+
+  <div class="header-fixed-wrap">
+    <nav>
+      <a href="../index.html" class="nav-logo">
+        <img src="../logo transparent.png" alt="RDC Icon">
+        <div class="logo-text">
+          <div><span class="gold-letter">R</span>AGHADEV <span class="gold-letter">D</span>ESIGN <span class="gold-letter">C</span>ONSULTANCY</div>
+          <div class="studio-text">ARCHITECTURAL STUDIO</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About Us</a></li>
+        <li><a href="../index.html#services" class="active">Services</a></li>
+        <li><a href="../Gallery/Gallery.html">Gallery</a></li>
+      </ul>
+      <button class="nav-cta" onclick="document.getElementById('service-cta').scrollIntoView({behavior:'smooth'})">Get a Quote</button>
+    </nav>
+  </div>
+
+  <section id="page-hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow" id="heroEyebrow">2D Drawings</p>
+      <h1 class="page-hero-title" id="heroTitle">Every Line<br/>Has a <em>Purpose.</em></h1>
+      <p class="page-hero-sub" id="heroSub">
+        A building is only as good as the drawings behind it. We produce precise, complete 2D drawing sets 
+        — from the first layout sketch to MEP point diagrams — so nothing is left to guesswork on site.
+      </p>
+      <div class="hero-tags" id="heroTags">
+        <span class="hero-tag">Floor Plans</span>
+        <span class="hero-tag">Elevations</span>
+        <span class="hero-tag">Section Drawings</span>
+        <span class="hero-tag">Site Plan</span>
+        <span class="hero-tag">Foundation Plans</span>
+        <span class="hero-tag">MEP Layouts</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="intro-strip">
+    <div style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="section-label centered">Why Drawings Matter</div>
+      <h2 class="section-title">Drawn <em>Right</em>, Built <em>Right</em></h2>
+      <p class="section-sub" style="margin:0 auto;">Poor drawings cause delays, contractor disputes, and costly rework. Every drawing we produce is dimensioned, annotated, and ready for planning submission or direct site use.</p>
+    </div>
+    <div class="intro-grid">
+      <div class="intro-stat fade-up">
+        <div class="intro-stat-num">7</div>
+        <div class="intro-stat-label">Drawing Types</div>
+        <div class="intro-stat-desc">Layout, Floor Plan, Elevation, Section, Site Plan, Foundation & Frame, MEP Point Plan</div>
+      </div>
+      <div class="intro-stat fade-up" style="transition-delay:0.1s;">
+        <div class="intro-stat-num">100%</div>
+        <div class="intro-stat-label">Dimensioned</div>
+        <div class="intro-stat-desc">Every drawing is fully dimensioned, annotated, and ready for local authority submission or contractor use</div>
+      </div>
+      <div class="intro-stat fade-up" style="transition-delay:0.2s;">
+        <div class="intro-stat-num">CAD</div>
+        <div class="intro-stat-label">Precision Delivery</div>
+        <div class="intro-stat-desc">Delivered as AutoCAD DWG, PDF, and printed sets — whichever format your project requires</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="drawing-journey">
+    <div class="journey-layout-container">
+      
+      <div class="journey-steps-header">
+        <div class="section-label centered">Drawing by Drawing</div>
+        <h2 class="section-title">The Complete Drawing Set</h2>
+        <p class="section-sub">We produce every drawing in sequence — each one building on the last, forming a complete and consistent set your contractor can work from without confusion.</p>
+      </div>
+
+      <div class="journey-grid-stream">
+        <div class="step-card fade-up">
+          <div class="step-left"><div class="step-circle">1</div></div>
+          <div class="step-right">
+            <div class="step-icon">📐</div>
+            <div class="step-name">Layout Design</div>
+            <div class="step-detail">
+              The layout drawing is the <strong>big-picture plan of your entire plot</strong> — showing the building's position on the site, setback distances from boundaries, vehicle access, compound wall, and open spaces. Before any rooms are drawn, we establish exactly where the building sits and what space is used for what purpose.
+              <br><br>This is the drawing that goes to the <strong> Planning Authority first (PPA)</strong> and sets the parameters for everything that follows.
+            </div>
+            <div class="material-tags">
+              <span class="mtag">Plot Boundary</span>
+              <span class="mtag">Setback Dimensions</span>
+              <span class="mtag">Access & Parking</span>
+              <span class="mtag">North Direction</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left"><div class="step-circle">2</div></div>
+          <div class="step-right">
+            <div class="step-icon">🏠</div>
+            <div class="step-name">Floor Plan</div>
+            <div class="step-detail">
+              The floor plan is the most-used drawing on site. It shows every room, wall, door, window, staircase, and opening — <strong>viewed from above as if the roof is removed</strong>. Every dimension is marked; room sizes, wall thicknesses, opening widths, and overall building dimensions.
+              <br><br>We produce a separate plan for <strong>each floor</strong> — e.g. ground, first, second, and terrace. The floor plan is the single most important drawing for the structural engineer, contractor, and client.
+            </div>
+            <div class="material-tags">
+              <span class="mtag">Room Dimensions</span>
+              <span class="mtag">Wall Thicknesses</span>
+              <span class="mtag">Door & Window Schedule</span>
+              <span class="mtag">Per Floor</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left"><div class="step-circle">3</div></div>
+          <div class="step-right">
+            <div class="step-icon">🏛️</div>
+            <div class="step-name">Elevation Drawing</div>
+            <div class="step-detail">
+              Elevations show the <strong>external face of the building from each side</strong> — front, rear, left, and right. These drawings show the height of the building, floor-to-floor levels, roof line, window and door positions as they appear from outside, and external finishes.
+              <br><br>Elevations are essential for <strong>planning submission, material selection</strong> (which tile, cladding, or plaster finish goes where), and giving your client a realistic picture of how the finished building will look before construction begins.
+            </div>
+            <div class="material-tags">
+              <span class="mtag">4 Elevations</span>
+              <span class="mtag">Floor-Level Heights</span>
+              <span class="mtag">Roof Profile</span>
+              <span class="mtag">External Finishes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left"><div class="step-circle">4</div></div>
+          <div class="step-right">
+            <div class="step-icon">✂️</div>
+            <div class="step-name">Section Drawing</div>
+            <div class="step-detail">
+              A section drawing is like slicing the building in half and looking inside — it reveals what <strong>floor-to-ceiling heights, staircase geometry, beam depths, slab thickness, and foundation depth</strong> look like in vertical cross-section.
+              <br><br>Sections are critical for the structural engineer to size beams and slabs correctly. They also show how <strong>split-level changes, staircases, and double-height spaces</strong> work in reality — things that are invisible on a floor plan.
+            </div>
+            <div class="material-tags">
+              <span class="mtag">Floor-to-Floor Height</span>
+              <span class="mtag">Slab Thickness</span>
+              <span class="mtag">Beam Depth</span>
+              <span class="mtag">Staircase Detail</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left"><div class="step-circle">5</div></div>
+          <div class="step-right">
+            <div class="step-icon">🗺️</div>
+            <div class="step-name">Site Plan</div>
+            <div class="step-detail">
+              The site plan is more detailed than the initial layout — it shows the <strong>finished ground levels, drainage outlets, rainwater pipes, compound gate position, septic tank or sump location, overhead tank, service connections</strong> (electricity, water, sewer), and landscape areas.
+              <br><br>This drawing is required for <strong>PPA / local body sanction</strong> and is used by civil engineers to plan earthworks, drainage, and utility connections before the building starts.
+            </div>
+            <div class="material-tags">
+              <span class="mtag">Contour Levels</span>
+              <span class="mtag">Drainage Layout</span>
+              <span class="mtag">Service Connections</span>
+              <span class="mtag">CMDA Submission</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left"><div class="step-circle">6</div></div>
+          <div class="step-right">
+            <div class="step-icon">⬛</div>
+            <div class="step-name">Foundation & Frame Planning</div>
+            <div class="step-detail">
+              This is the <strong>structural drawing set</strong> — showing column positions (the grid), footing sizes and depths, plinth beam layout, tie beam positions, and slab reinforcement details. It is prepared in coordination with the structural engineer.
+              <br><br> It specifies <strong>rebar size, spacing, cover, and lap lengths</strong> — ensuring the structural frame is exactly what the engineering calculations require. This drawing directly controls construction cost and safety.
+            </div>
+            <div class="material-tags">
+              <span class="mtag">Column Grid</span>
+              <span class="mtag">Footing Sizes</span>
+              <span class="mtag">Rebar Schedule</span>
+              <span class="mtag">Plinth Beam Layout</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left"><div class="step-circle">7</div></div>
+          <div class="step-right">
+            <div class="step-icon">⚡</div>
+            <div class="step-name">MEP Point Plan</div>
+            <div class="step-detail">
+              MEP stands for <strong>Mechanical, Electrical, and Plumbing</strong>. This drawing overlays all service point positions onto the floor plan — every light point, socket, switch board, AC slot, fan point, water inlet, drain point, and appliance connection is marked with its exact location and type.
+              <br><br>Without an MEP drawing, <strong>electricians and plumbers work from memory or guesswork</strong> — leading to incorrect conduit routing, missed points, and walls that need to be broken after plastering. We mark every point before the slab is cast, so nothing is missed.
+            </div>
+            <div class="material-tags">
+              <span class="mtag">Electrical Points</span>
+              <span class="mtag">Plumbing Inlets</span>
+              <span class="mtag">Drain Outlets</span>
+              <span class="mtag">AC & Exhaust</span>
+              <span class="mtag">Switch Board Layout</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="deliverables">
+    <div class="del-header fade-up">
+      <div class="section-label centered">What You Receive</div>
+      <h2 class="section-title">Your Drawing Package</h2>
+      <p class="section-sub" style="margin:0 auto;">Every drawing set we produce is complete, dimensioned, and delivered in the formats you need — for contractors, engineers, and planning authorities.</p>
+    </div>
+    <div class="del-grid">
+      <div class="del-card fade-up">
+        <div class="del-icon">📄</div>
+        <div class="del-title">PDF Sets</div>
+        <div class="del-desc">Print-ready PDF files for every drawing, at correct scale with title block and revision number.</div>
+      </div>
+      <div class="del-card fade-up" style="transition-delay:0.08s;">
+        <div class="del-icon">🖨️</div>
+        <div class="del-title">Printed Drawings</div>
+        <div class="del-desc">Full-size printed and folded drawing sets, ready to hand to your contractor on site.</div>
+      </div>
+      <div class="del-card fade-up" style="transition-delay:0.16s;">
+        <div class="del-icon">✏️</div>
+        <div class="del-title">Revisions Included</div>
+        <div class="del-desc">Client review rounds are part of the process — we revise drawings until you are satisfied before finalising.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="service-cta">
+    <div class="cta-wrapper">
+      <div class="fade-up">
+        <div class="section-label">Start Your Drawing Set</div>
+        <h2 class="cta-title">Ready to Get<br/>Your Plans <em>Drawn?</em></h2>
+        <p class="cta-desc">Share your requirements with us — plot dimensions, number of floors, intended use — and we'll prepare a drawing scope and quote within 48 hours.</p>
+        <div class="cta-actions">
+          <a href="../index.html#contact" class="btn-primary">Request a Quote</a>
+          <a href="../index.html#services" class="btn-ghost">All Services</a>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay:0.15s;">
+        <div class="cta-info-list">
+          <div class="cta-info-item">
+            <div class="cta-icon">📍</div>
+            <div>
+              <div class="cta-item-label">Our Office</div>
+              <a class="cta-item-val" href="https://maps.app.goo.gl/ZfK7tEiGYPSH8V146" target="_blank" rel="noopener noreferrer">20, Vengadeswara Nagar, 3rd Cross (East), Puducherry - 605013</a>
+            </div>
+          </div>
+          <div class="cta-info-item">
+            <div class="cta-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" style="width:1rem;height:1rem;">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.8c-32 0-64.4-8.5-92.4-24.6l-6.6-3.9-68.9 18 18.3-67.2-4.3-6.8c-17.6-27.8-26.9-59.7-26.9-92.4 0-101.1 82.2-183.3 183.5-183.3 49 0 95 19.1 129.6 53.7 34.6 34.6 53.7 80.6 53.7 129.6 0 101.1-82.2 183.3-183.5 183.3zM324 286.1c-5.5-2.8-32.5-16.1-37.5-17.9-5-1.8-8.7-2.8-12.4 2.8-3.7 5.5-14.2 17.9-17.4 21.6-3.2 3.7-6.5 4.1-12 1.4-5.5-2.8-23.2-8.6-44.2-27.3-16.3-14.6-27.3-32.6-30.5-38.1-3.2-5.5-.3-8.5 2.5-11.2 2.5-2.5 5.5-6.4 8.2-9.6 2.8-3.2 3.7-5.5 5.5-9.2 1.8-3.7.9-6.9-.5-9.6-1.4-2.8-12.4-29.9-17-40.9-4.5-10.8-9.1-9.3-12.4-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.6 1.4-14.7 6.9-5 5.5-19.2 18.8-19.2 45.9s19.7 53.2 22.5 56.9c2.8 3.7 38.8 59.2 94 83 13.1 5.6 23.3 9 31.3 11.5 13.1 4.2 25 3.6 34.5 2.2 10.6-1.6 32.5-13.3 37.1-26.1 4.6-12.8 4.6-23.8 3.2-26.1-1.4-2.3-5-3.7-10.5-6.5z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="cta-item-label">WhatsApp</div>
+              <a class="cta-item-val" href="https://wa.me/919487000000" target="_blank" rel="noopener noreferrer">+91 (0) 94870 00000</a>
+            </div>
+          </div>
+          <div class="cta-info-item">
+            <div class="cta-icon">✉️</div>
+            <div>
+              <div class="cta-item-label">Email</div>
+              <a class="cta-item-val" href="mailto:hello@raghadevesign.com">hello@raghadevesign.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-logo">R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</span></div>
+      <div class="footer-studio">ARCHITECTURAL STUDIO</div>
+    </div>
+    <div class="footer-copy">© 2026 Raghadev Design Consultancy. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // ── PRELOADER ──
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('preloader').classList.add('preloader-hidden'), 500);
+    });
+
+    // ── HERO FADE-IN ──
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        ['heroEyebrow','heroTitle','heroSub','heroTags'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('visible');
+        });
+      }, 700);
+    });
+
+    // ── GENERAL FADE-UP ──
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { 
+          e.target.classList.add('visible'); 
+          fadeObserver.unobserve(e.target); 
+        }
+      });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.fade-up, .step-card').forEach(el => fadeObserver.observe(el));
+  </script>
+</body>
+</html>
