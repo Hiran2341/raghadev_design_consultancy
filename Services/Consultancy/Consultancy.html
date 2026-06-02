@@ -679,6 +679,7 @@
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
     /* ── RESPONSIVE ── */
+   /* ── UPDATED MOBILE MEDIA QUERIES ── */
     @media (max-width: 991px) {
       html, body { scroll-snap-type: none; height: auto; }
       section, .snap-section {
@@ -686,10 +687,18 @@
         padding: 5rem 5vw 3rem !important;
         justify-content: flex-start !important;
       }
+      
+      /* FIX: Pushes the hero layout content safely beneath the fixed mobile nav */
       #page-hero {
-        min-height: 100vh; height: auto;
-        align-items: flex-end; padding: 8rem 5vw 4rem;
+        min-height: 100vh; 
+        height: auto;
+        align-items: flex-end; 
+        padding-top: 14rem !important; /* Increased top padding */
+        padding-left: 5vw !important;
+        padding-right: 5vw !important;
+        padding-bottom: 4rem !important;
       }
+      
       .intro-grid, .visit-grid, .cta-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
       .intro-visual, .visit-visual { height: 280px; }
       .cover-intro { grid-template-columns: 1fr; }
