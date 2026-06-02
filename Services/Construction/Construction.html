@@ -1,1 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Construction — Raghadev Design Consultancy</title>
+  <link rel="icon" type="image/png" href="../../logo transparent.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --steel:    #1a1f2e;
+      --iron:     #242938;
+      --concrete: #2e3344;
+      --gold:     #c9a84c;
+      --gold-lt:  #e6c46a;
+      --offwhite: #f0ece4;
+      --muted:    #9aa0b2;
+      --white:    #ffffff;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--steel);
+      color: var(--offwhite);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0;
+      background: var(--steel); z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .fading-logo { width: 100px; height: auto; animation: pulseFade 1.5s infinite ease-in-out; }
+    @keyframes pulseFade { 0%{opacity:1} 50%{opacity:0.15} 100%{opacity:1} }
+    .preloader-hidden { opacity: 0 !important; visibility: hidden !important; }
+
+    /* ── NAV & HEADER WRAPPER ── */
+    .header-fixed-wrap {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 2.25vw;
+      background: rgba(26,31,46,0.95);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 1rem; text-decoration: none;
+    }
+    .nav-logo img { max-height: 55px; width: auto; display: block; }
+    .logo-text {
+      display: flex; flex-direction: column;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--white);
+      line-height: 1.0; letter-spacing: 0.05em; margin-top: 5px;
+    }
+    .gold-letter { color: var(--gold); }
+    .studio-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.3em;
+      color: var(--gold); margin-top: 0.2rem;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.25s; cursor: pointer;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--steel); background: var(--gold);
+      border: none; padding: 0.6rem 1.4rem;
+      cursor: pointer; transition: background 0.25s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    /* ── EMERGENCY NOTIFICATION BAR ── */
+    .emergency-bar {
+      background: #b82c2c;
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeAnimation 20s linear infinite;
+    }
+    .marquee-text {
+      padding-right: 4rem;
+      white-space: nowrap;
+    }
+    @keyframes marqueeAnimation {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+    .emergency-bar.hidden {
+      display: none !important;
+    }
+
+    /* ── HERO ── */
+    #page-hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: flex-end; padding: 8rem 5vw 4rem;
+      overflow: hidden;
+      background-image: url('construction-hero.jpg');
+      background-size: cover; background-position: center;
+    }
+    #page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(26,31,46,0.95) 0%, rgba(26,31,46,0.60) 55%, rgba(26,31,46,0.85) 100%);
+      z-index: 1;
+    }
+    .grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.02) 1px, transparent 1px);
+      background-size: 60px 60px; z-index: 0;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 780px; width: 100%; }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); }
+    .breadcrumb-sep { color: rgba(201,168,76,0.3); }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      opacity: 0; transform: translateY(15px);
+      transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+    }
+    .hero-eyebrow::before { content:''; display:inline-block; width:1.5rem; height:1px; background:var(--gold); }
+    .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
+
+    .page-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.95; letter-spacing: 0.02em; color: var(--white); margin-bottom: 1.25rem;
+      opacity: 0; transform: translateY(25px);
+      transition: opacity 0.8s ease 0.35s, transform 0.8s ease 0.35s;
+    }
+    .page-hero-title em { font-style: normal; color: var(--gold); }
+    .page-hero-title.visible { opacity: 1; transform: translateY(0); }
+
+    .page-hero-sub {
+      font-size: 0.95rem; font-weight: 300; line-height: 1.7;
+      color: rgba(240,236,228,0.8); max-width: 55ch; margin-bottom: 1.75rem;
+      opacity: 0; transform: translateY(15px);
+      transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+    }
+    .page-hero-sub.visible { opacity: 1; transform: translateY(0); }
+
+    .hero-tags {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      opacity: 0; transition: opacity 0.7s ease 0.65s;
+    }
+    .hero-tags.visible { opacity: 1; }
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.25rem 0.65rem; background: rgba(26,31,46,0.5);
+    }
+
+    .scroll-hint {
+      position: absolute; bottom: 1.5rem; right: 5vw; z-index: 2;
+      display: flex; align-items: center; gap: 0.4rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(201,168,76,0.4);
+    }
+    .scroll-hint::after { content:'↓'; font-size: 0.9rem; color:var(--gold); }
+
+    /* ── TYPE SELECTOR ── */
+    #type-selector {
+      background: var(--iron);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 5rem 5vw;
+      position: relative; z-index: 1;
+    }
+    .type-selector-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+    }
+    .section-label::before, .section-label::after { content:''; display:inline-block; width:1.5rem; height:1px; background:var(--gold); }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: 0.03em; color: var(--white); margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 0.95rem; font-weight: 300; color: var(--muted);
+      line-height: 1.7; max-width: 55ch; margin: 0 auto 2.5rem;
+    }
+
+    .type-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .type-card {
+      background: var(--concrete);
+      border-radius: 8px; border: 1px solid rgba(201,168,76,0.08);
+      padding: 2rem 1.5rem;
+      position: relative; overflow: hidden;
+      text-align: left;
+    }
+    .type-card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .type-card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; letter-spacing: 0.05em; color: var(--white); margin-bottom: 0.5rem;
+    }
+    .type-card-desc { font-size: 0.88rem; font-weight: 300; color: var(--muted); line-height: 1.6; }
+    .type-card-examples {
+      display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 1rem;
+    }
+    .type-ex {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(201,168,76,0.2);
+      padding: 0.2rem 0.55rem; border-radius: 3px;
+    }
+
+    /* ── CENTERED JOURNEY SECTION ── */
+    #build-journey {
+      position: relative;
+      background: var(--iron);
+      padding: 5rem 5vw;
+    }
+    .journey-layout { max-width: 750px; margin: 0 auto; }
+    .journey-steps { display: flex; flex-direction: column; gap: 0; }
+
+    /* Phase header */
+    .phase-header {
+      padding: 3.5rem 0 1.5rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .phase-header:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+    .phase-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.4rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .phase-name::before, .phase-name::after { content:''; display:inline-block; width:1rem; height:1px; background:var(--gold); }
+    .phase-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; letter-spacing: 0.05em; color: var(--white);
+    }
+
+    /* Individual step card */
+    .step-card {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 2rem 1.5rem;
+      background: var(--concrete);
+      border-radius: 8px;
+      border: 1px solid rgba(201,168,76,0.05);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .step-card.in-view { opacity: 1; transform: translateY(0); }
+
+    .step-left {
+      display: flex; flex-direction: column; align-items: center;
+      min-width: 3rem;
+    }
+    .step-circle {
+      width: 3rem; height: 3rem;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
+      color: var(--gold);
+      background: rgba(201,168,76,0.06);
+      box-shadow: 0 0 12px rgba(201,168,76,0.1);
+    }
+
+    .step-right { flex: 1; min-width: 0; }
+    .step-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .step-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 0.4rem;
+    }
+    .step-detail { font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.6; }
+    .step-detail strong { color: var(--offwhite); font-weight: 500; }
+
+    /* Material tags */
+    .material-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.85rem; }
+    .mtag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(201,168,76,0.85); border: 1px solid rgba(201,168,76,0.2);
+      padding: 0.2rem 0.55rem; border-radius: 3px;
+    }
+
+    /* ── CTA SECTION ── */
+    #service-cta {
+      background: var(--iron);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 5rem 5vw;
+      position: relative; z-index: 1;
+    }
+    .cta-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.95; letter-spacing: 0.02em; color: var(--white); margin-bottom: 1.25rem;
+    }
+    .cta-title em { font-style: normal; color: var(--gold); }
+    .cta-desc { font-size: 0.95rem; font-weight: 300; color: var(--muted); line-height: 1.7; max-width: 44ch; margin-bottom: 1.75rem; }
+    .cta-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--steel); background: var(--gold); border: none;
+      padding: 0.85rem 1.75rem; cursor: pointer; text-decoration: none;
+      transition: background 0.25s, transform 0.2s; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-ghost {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--offwhite); background: transparent;
+      border: 1px solid rgba(255,170,0,0.25); padding: 0.85rem 1.75rem;
+      cursor: pointer; text-decoration: none;
+      transition: border-color 0.25s, color 0.25s; display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-lt); }
+
+    .cta-info-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .cta-info-item { display: flex; gap: 0.85rem; align-items: flex-start; }
+    .cta-icon {
+      width: 2.2rem; height: 2.2rem; min-width: 2.2rem;
+      background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; color: var(--gold); border-radius: 4px;
+    }
+    .cta-item-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.15rem;
+    }
+    a.cta-item-val {
+      font-size: 0.9rem; font-weight: 300; color: var(--offwhite);
+      text-decoration: none; transition: color 0.25s; word-break: break-word;
+    }
+    a.cta-item-val:hover { color: var(--gold); }
+    .other-services { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(201,168,76,0.1); }
+    .other-services-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.6rem;
+    }
+    .other-services-links { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .other-svc-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      border: 1px solid rgba(201,168,76,0.12); padding: 0.25rem 0.65rem;
+      border-radius: 4px; transition: color 0.2s, border-color 0.2s;
+    }
+    .other-svc-tag:hover { color: var(--gold); border-color: rgba(201,168,76,0.35); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--steel); border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 1.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-brand { display: flex; flex-direction: column; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--gold); }
+    .footer-logo span { color: var(--muted); }
+    .footer-studio { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold); margin-top: 0.15rem; }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
+
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── REWRITTEN MOBILE MEDIA QUERIES ── */
+    @media (max-width: 991px) {
+      nav {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem 5vw;
+      }
+      .nav-links { gap: 1.25rem; }
+      .nav-cta { width: 100%; text-align: center; margin-top: 0.25rem; }
+      
+      #page-hero { align-items: center; text-align: center; padding-top: 13rem !important; padding-bottom: 4rem; }
+      .hero-eyebrow { justify-content: center; }
+      .breadcrumb { justify-content: center; }
+      .page-hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-tags { justify-content: center; }
+      .scroll-hint { display: none; }
+
+      .type-cards { grid-template-columns: 1fr; gap: 1.25rem; }
+      .cta-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; text-align: center; gap: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text { font-size: 1.1rem; }
+      #build-journey { padding: 4rem 4vw; }
+      .phase-title { font-size: 1.8rem; }
+      .step-card { flex-direction: column; gap: 1rem; padding: 1.25rem 1rem; }
+      .step-left { min-width: auto; align-items: flex-start; }
+      .step-circle { width: 2.5rem; height: 2.5rem; font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <img src="../../logo transparent.png" alt="Loading..." class="fading-logo">
+  </div>
+
+  <div class="header-fixed-wrap">
+    <nav>
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../logo transparent.png" alt="RDC Icon">
+        <div class="logo-text">
+          <div class="main-name">
+            <span class="gold-letter">R</span>AGHADEV 
+            <span class="gold-letter">D</span>ESIGN 
+            <span class="gold-letter">C</span>ONSULTANCY
+          </div>
+          <div class="studio-text">ARCHITECTURAL STUDIO</div>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="../../index.html#about">About Us</a></li>
+        <li><a href="../../index.html#services" class="active">Services</a></li>
+        <li><a href="../../Gallery/Gallery.html">Gallery</a></li>
+      </ul>
+
+      <button class="nav-cta" onclick="document.getElementById('service-cta').scrollIntoView({behavior:'smooth'})">Get a Quote</button>
+    </nav>
+  </div>
+
+  <section id="page-hero">
+    <div class="grid-lines"></div>
+    <div class="hero-content">
+      
+      <p class="hero-eyebrow" id="heroEyebrow">Our Services</p>
+      <h1 class="page-hero-title" id="heroTitle">
+        Built to<br/><em>Last</em>
+      </h1>
+      <p class="page-hero-sub" id="heroSub">
+        From the first shovel in the ground to the final coat of paint — we manage every stage 
+        of your construction with precision, quality materials, and zero compromise. 
+      </p>
+      <div class="hero-tags" id="heroTags">
+        <span class="hero-tag">Residential</span>
+        <span class="hero-tag">Commercial</span>
+        <span class="hero-tag">New Build</span>
+        <span class="hero-tag">Renovation</span>
+        <span class="hero-tag">Full Project Management</span>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll to see the journey</div>
+  </section>
+
+  <section id="type-selector">
+    <div class="type-selector-inner fade-up">
+      <div class="section-label">Choose Your Build</div>
+      <h2 class="section-title">What Are You Building?</h2>
+      <p class="section-sub">Every build follows the same rigorous 15-step process below — the difference is in how we tailor materials, structure, and design to your specific use case.</p>
+      <div class="type-cards">
+        <div class="type-card" id="card-residential">
+          <div class="type-card-icon">🏠</div>
+          <div class="type-card-title">Residential</div>
+          <div class="type-card-desc">New homes, villas, individual houses, extensions, and complete renovations. Built around how your family lives.</div>
+          <div class="type-card-examples">
+            <span class="type-ex">Villas</span>
+            <span class="type-ex">Individual Houses</span>
+            <span class="type-ex">Extensions</span>
+            <span class="type-ex">Renovations</span>
+          </div>
+        </div>
+        <div class="type-card" id="card-commercial">
+          <div class="type-card-icon">🏢</div>
+          <div class="type-card-title">Commercial</div>
+          <div class="type-card-desc">Offices, shops, mixed-use buildings, and commercial complexes built to serve clients, staff, and long-term ROI.</div>
+          <div class="type-card-examples">
+            <span class="type-ex">Offices</span>
+            <span class="type-ex">Retail Spaces</span>
+            <span class="type-ex">Mixed-Use</span>
+            <span class="type-ex">Complexes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="build-journey">
+    <div class="journey-layout">
+      <div class="journey-steps">
+
+        <div class="phase-header">
+          <div class="phase-name">Phase 1</div>
+          <div class="phase-title">Groundwork & Foundation</div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">1</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🧪</div>
+            <div class="step-name">Soil & Water Testing</div>
+            <div class="step-detail">Before anything is built, we test the soil load-bearing capacity and check groundwater levels. <strong>This determines the type of foundation your building needs</strong> — whether a simple strip foundation, raft slab, or deep pile foundation for soft or waterlogged ground.</div>
+            <div class="material-tags">
+              <span class="mtag">Soil Test Report</span>
+              <span class="mtag">Water Table Analysis</span>
+              <span class="mtag">Load Bearing Study</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">2</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🏗️</div>
+            <div class="step-name">Material Selection — Steel, Cement & Brick</div>
+            <div class="step-detail">Based on soil results and structural load, we select the right grade of materials. <strong>TMT steel grade, cement type (OPC 43 vs 53), and brick type (solid, hollow, or AAC blocks)</strong> are chosen for your specific climate, soil condition, and building weight.</div>
+            <div class="material-tags">
+              <span class="mtag">Fe500 TMT Steel</span>
+              <span class="mtag">OPC 53 / PPC Cement</span>
+              <span class="mtag">AAC / Solid Brick</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">3</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">⬛</div>
+            <div class="step-name">Raising the Foundation</div>
+            <div class="step-detail">Excavation, PCC (Plain Cement Concrete) bedding, and foundation construction begins. <strong>The basement or plinth level is raised</strong> to the correct height above ground, protecting the structure from moisture ingress, flooding, and settlement over time.</div>
+            <div class="material-tags">
+              <span class="mtag">PCC Bedding</span>
+              <span class="mtag">RCC Foundation</span>
+              <span class="mtag">Anti-Termite Treatment</span>
+              <span class="mtag">Waterproofing</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-header">
+          <div class="phase-name">Phase 2</div>
+          <div class="phase-title">Structural Frame</div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">4</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🧱</div>
+            <div class="step-name">Selecting Concrete Grade</div>
+            <div class="step-detail">Concrete grade is selected based on your location and exposure conditions — <strong>coastal areas (like Puducherry) demand sulphate-resistant cement and higher grade M25+ concrete</strong> to resist seawater salinity. Inland builds may use M20. We design the mix precisely for your environment.</div>
+            <div class="material-tags">
+              <span class="mtag">M20 / M25 / M30</span>
+              <span class="mtag">Sulphate-Resistant</span>
+              <span class="mtag">Coastal Mix Design</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">5</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">⚡</div>
+            <div class="step-name">Electrical Layout in Roof Slab</div>
+            <div class="step-detail">Before the roof slab is cast, all <strong>electrical conduit pipes, switch board positions, and lighting point boxes are laid into the formwork</strong>. This is critical — routing electrical lines through a finished slab is impossible. Every point is planned on paper first, then laid precisely before pouring.</div>
+            <div class="material-tags">
+              <span class="mtag">ISI Conduit Pipes</span>
+              <span class="mtag">Switch Board Layout</span>
+              <span class="mtag">Fan & Light Points</span>
+              <span class="mtag">AC & Exhaust Points</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">6</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🏛️</div>
+            <div class="step-name">Completing Skeleton & Brickwork</div>
+            <div class="step-detail">Columns, beams, and slabs form the structural skeleton. <strong>Once the skeleton is complete, brickwork begins</strong> — filling the walls between columns. Courses are laid plumb and level, with proper bonding pattern, and mortar joints are struck neatly for a solid, gap-free wall.</div>
+            <div class="material-tags">
+              <span class="mtag">RCC Columns & Beams</span>
+              <span class="mtag">Solid / Hollow Bricks</span>
+              <span class="mtag">Lintel Bands</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-header">
+          <div class="phase-name">Phase 3</div>
+          <div class="phase-title">Electrical & Plumbing</div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">7</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🔨🛠️🔧</div>
+            <div class="step-name">Laying Electrical & Plumbing Lines</div>
+            <div class="step-detail"><strong>Chasing (cutting channels in walls)</strong> for conduit pipes and plumbing lines happens before plastering. Hot and cold water supply lines, drainage runs, and electrical circuits are routed through the walls. Every layout is drawn up and checked before cutting begins to avoid structural damage.</div>
+            <div class="material-tags">
+              <span class="mtag">Wall Chasing</span>
+              <span class="mtag">CPVC / UPVC Pipes</span>
+              <span class="mtag">Circuit Planning</span>
+              <span class="mtag">Earth Bonding</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-header">
+          <div class="phase-name">Phase 4</div>
+          <div class="phase-title">Interior Finishing</div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">8</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🪣🪏 </div>
+            <div class="step-name">Plastering the Walls</div>
+            <div class="step-detail">Two coats: <strong>a rough backing coat, followed by a smooth finishing coat </strong>. All corners are straightened with angle beads. Ceiling plastering is done before walls. Curing is done for a minimum of 7 days to prevent cracking. The quality of plastering directly affects how paint or putty looks later.</div>
+            <div class="material-tags">
+              <span class="mtag">Backing Coat 12mm</span>
+              <span class="mtag">Finish Coat 6mm</span>
+              <span class="mtag">7-Day Curing</span>
+              <span class="mtag">Corner Beads</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">9</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🧴</div>
+            <div class="step-name">Selecting & Applying Putty</div>
+            <div class="step-detail">Wall putty fills micro-pores and hairline cracks left after plastering, creating a perfectly smooth base for paint. <strong>We help you choose between cement-based putty (durable, external use) and polymer putty (smoother finish, internal walls)</strong>. Two coats are applied, with sanding between each.</div>
+            <div class="material-tags">
+              <span class="mtag">Birla White / Asian Putty</span>
+              <span class="mtag">2 Coats</span>
+              <span class="mtag">120 Grit Sanding</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">10</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🔲💎⬜️</div>
+            <div class="step-name">Selecting Flooring Type</div>
+            <div class="step-detail">Flooring is chosen for each room based on use, aesthetics, and maintenance. <strong>Vitrified tiles for living areas, anti-skid ceramic for bathrooms and kitchens, granite or marble for premium spaces, and outdoor-grade tiles for terraces.</strong> We advise on size, pattern, and grout colour too.</div>
+            <div class="material-tags">
+              <span class="mtag">Vitrified Tiles</span>
+              <span class="mtag">Ceramic / Anti-Skid</span>
+              <span class="mtag">Granite / Marble</span>
+              <span class="mtag">Outdoor Porcelain</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">11</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🎨🖌️</div>
+            <div class="step-name">Selecting Paint Type</div>
+            <div class="step-detail">Not all paints are the same. <strong>Interior walls use emulsion (matt or silk sheen), wet areas use moisture-resistant paint, and exterior walls need weather-shield paint that handles heavy rain, heat, and UV exposure</strong> — especially important in the Puducherry climate. We help you pick sheen level, brand, and colour palette.</div>
+            <div class="material-tags">
+              <span class="mtag">Interior Emulsion</span>
+              <span class="mtag">Exterior Weather-Shield</span>
+              <span class="mtag">Moisture-Resistant</span>
+              <span class="mtag">Texture / Primer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-header">
+          <div class="phase-name">Phase 5</div>
+          <div class="phase-title">Fit-Out & Fixtures</div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">12</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🔌💡🎛️</div>
+            <div class="step-name">Electrical Wires, Switches & Boards</div>
+            <div class="step-detail">Final electrical wiring is pulled through the conduits laid earlier. <strong>Wire gauge is selected based on load — 1.5 sq mm for lighting, 4 sq mm for power sockets, 6 sq mm for AC and heavy appliances.</strong> Switch plates, MCB boards, and modular switches are fitted. All circuits are tested before final connection.</div>
+            <div class="material-tags">
+              <span class="mtag">Finolex / Havells Wire</span>
+              <span class="mtag">MCB Distribution Board</span>
+              <span class="mtag">Modular Switches</span>
+              <span class="mtag">Earth Leakage Protection</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">13</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🚿🚽🔧</div>
+            <div class="step-name">Selecting Fixtures & Fittings</div>
+            <div class="step-detail">Sanitary fittings, bathroom fixtures, kitchen sink, taps, shower heads, and toilet units are selected and fitted. <strong>We advise on brand, finish (chrome, matte, brushed gold), water-saving ratings, and durability</strong> to balance aesthetics with performance and long-term maintenance.</div>
+            <div class="material-tags">
+              <span class="mtag">Jaquar / Kohler / Cera</span>
+              <span class="mtag">WELS Water Rating</span>
+              <span class="mtag">Chrome / Matte Black</span>
+              <span class="mtag">Anti-Limescale</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-header">
+          <div class="phase-name">Phase 6</div>
+          <div class="phase-title">Handover</div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">14</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">🏠</div>
+            <div class="step-name">Finalising the Building</div>
+            <div class="step-detail"><strong>Door frames, architraves, window shutters, grille work, external cladding, and compound wall finishing</strong> are all completed. False ceiling (if applicable), cabinetry, and exterior landscaping happens at this stage too. A complete punch-list is generated and all items signed off before declaring the structure finished.</div>
+            <div class="material-tags">
+              <span class="mtag">Door & Window Frames</span>
+              <span class="mtag">False Ceiling</span>
+              <span class="mtag">Exterior Cladding</span>
+              <span class="mtag">Punch-List Signoff</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card fade-up">
+          <div class="step-left">
+            <div class="step-circle">15</div>
+          </div>
+          <div class="step-right">
+            <div class="step-icon">✨</div>
+            <div class="step-name">Cleaning & Final Handover</div>
+            <div class="step-detail">A professional deep-clean removes construction dust, cement smears, and debris from every surface. <strong>All tiles are cleaned and polished, glass is cleared, fixtures are tested, and electrical systems are final-checked.</strong> We walk through the property with you room by room, explain every system, and hand over keys only when everything meets our standard — and yours.</div>
+            <div class="material-tags">
+              <span class="mtag">Deep Clean</span>
+              <span class="mtag">Systems Walkthrough</span>
+              <span class="mtag">Warranty Documents</span>
+              <span class="mtag">Key Handover</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="service-cta">
+    <div class="cta-wrapper">
+      <div class="fade-up">
+        <div class="section-label">Start Your Build</div>
+        <h2 class="cta-title">Ready to<br/><em>Build?</em></h2>
+        <p class="cta-desc">Every building we construct goes through all 15 steps with the same care — whether it's a single home or a commercial complex. Let's start with a conversation.</p>
+        <div class="cta-actions">
+          <a href="../../index.html#contact" class="btn-primary">Book a Consultation</a>
+          <a href="../../index.html#services" class="btn-ghost">All Services</a>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay:0.15s;">
+        <div class="cta-info-list">
+          <div class="cta-info-item">
+            <div class="cta-icon">📍</div>
+            <div>
+              <div class="cta-item-label">Our Office</div>
+              <a class="cta-item-val" href="https://maps.app.goo.gl/ZfK7tEiGYPSH8V146" target="_blank">20, Vengadeswara Nagar, 3rd Cross (East), Puducherry - 605013</a>
+            </div>
+          </div>
+          <div class="cta-info-item">
+            <div class="cta-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" style="width:1rem;height:1rem;">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.8c-32 0-64.4-8.5-92.4-24.6l-6.6-3.9-68.9 18 18.3-67.2-4.3-6.8c-17.6-27.8-26.9-59.7-26.9-92.4 0-101.1 82.2-183.3 183.5-183.3 49 0 95 19.1 129.6 53.7 34.6 34.6 53.7 80.6 53.7 129.6 0 101.1-82.2 183.3-183.5 183.3zM324 286.1c-5.5-2.8-32.5-16.1-37.5-17.9-5-1.8-8.7-2.8-12.4 2.8-3.7 5.5-14.2 17.9-17.4 21.6-3.2 3.7-6.5 4.1-12 1.4-5.5-2.8-23.2-8.6-44.2-27.3-16.3-14.6-27.3-32.6-30.5-38.1-3.2-5.5-.3-8.5 2.5-11.2 2.5-2.5 5.5-6.4 8.2-9.6 2.8-3.2 3.7-5.5 5.5-9.2 1.8-3.7.9-6.9-.5-9.6-1.4-2.8-12.4-29.9-17-40.9-4.5-10.8-9.1-9.3-12.4-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.6 1.4-14.7 6.9-5 5.5-19.2 18.8-19.2 45.9s19.7 53.2 22.5 56.9c2.8 3.7 38.8 59.2 94 83 13.1 5.6 23.3 9 31.3 11.5 13.1 4.2 25 3.6 34.5 2.2 10.6-1.6 32.5-13.3 37.1-26.1 4.6-12.8 4.6-23.8 3.2-26.1-1.4-2.3-5-3.7-10.5-6.5z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="cta-item-label">WhatsApp</div>
+              <a class="cta-item-val" href="https://wa.me/9194" target="_blank">+91 (0) 948 — — — —</a>
+            </div>
+          </div>
+          <div class="cta-info-item">
+            <div class="cta-icon">✉️</div>
+            <div>
+              <div class="cta-item-label">Email</div>
+              <a class="cta-item-val" href="mailto:hello@gmail.com">hello@gmail.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-logo">R<span>AGHADEV </span>D<span>ESIGN </span>C<span>ONSULTANCY</span></div>
+      <div class="footer-studio">ARCHITECTURAL STUDIO</div>
+    </div>
+    <div class="footer-copy">© 2026 Raghadev Design Consultancy. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // ── PRELOADER ──
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('preloader').classList.add('preloader-hidden'), 500);
+    });
+
+    // ── HERO FADE-IN ──
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        ['heroEyebrow','heroTitle','heroSub','heroTags'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('visible');
+        });
+      }, 700);
+    });
+
+    // ── SCROLL-DRIVEN STEP ACTIVATION ──
+    const stepCards = document.querySelectorAll('.step-card');
+    const stepObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    stepCards.forEach(card => stepObserver.observe(card));
+
+    // ── GENERAL FADE-UP ──
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+    // ── ALERTS DISMISSAL ──
+    function hideEmergencyBar() {
+      const bar = document.getElementById('emergencyBar');
+      if (bar) {
+        bar.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
