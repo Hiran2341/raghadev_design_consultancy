@@ -1123,6 +1123,10 @@
           <input class="form-input" type="email" id="fEmail" name="Email" placeholder="john@example.com" required/>
         </div>
         <div class="form-group">
+          <label class="form-label">Mobile Number</label>
+          <input class="form-input" type="tel" id="fPhone" name="Phone Number" placeholder="+91 XXXXX XXXXX" pattern="[0-9+\s\-]{7,15}" required/>
+        </div>
+        <div class="form-group">
           <label class="form-label">Project Type</label>
           <input class="form-input" type="text" id="fType" name="Project Type" placeholder="e.g. Residential Build, Commercial Fit-Out…" required/>
         </div>
@@ -1277,8 +1281,8 @@
       })
       .then(response => {
         if (response.ok) {
-          submitBtn.style.display = 'none';
-          successMsg.style.display = 'block';
+          submitBtn.style.display = 'Enquiry  Submitted';
+          successMsg.style.display = '1';
           enquiryForm.reset();
         } else {
           submitBtn.textContent = "Error. Try Again.";
